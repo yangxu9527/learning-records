@@ -46,5 +46,7 @@ public class Parcell2 {
         Parcell2 q = new Parcell2();
         Contents contents = q.contents();
         q.to("borneo");
+
+
     }
 }

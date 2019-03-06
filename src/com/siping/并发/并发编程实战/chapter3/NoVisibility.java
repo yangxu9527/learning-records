@@ -1,4 +1,4 @@
-package com.siping.并发.并发编程;
+package com.siping.并发.并发编程实战.chapter3;
 
 /**
  * 可见性和重排序
@@ -17,7 +17,8 @@ public class NoVisibility {
     private static int number;
     
     private static class ReaderThread extends Thread {
-        
+
+        @Override
         public void run() {
             System.out.println(Thread.currentThread().getName());
             while(!ready) {
@@ -30,6 +31,7 @@ public class NoVisibility {
     public static void main(String[] args) throws InterruptedException {
         new ReaderThread().start();
         System.out.println(Thread.currentThread().getName());
+        Thread.sleep(1);
         number = 42;
         ready = true;
     }

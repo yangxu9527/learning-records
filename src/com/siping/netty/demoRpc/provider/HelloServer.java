@@ -44,9 +44,9 @@ public class HelloServer {
                         @Override
                         public void initChannel(SocketChannel ch) throws Exception {
                             ChannelPipeline p = ch.pipeline();
-                            p.addLast(new HelloServerHandler());
                             p.addLast(new StringDecoder());
                             p.addLast(new StringEncoder());
+                            p.addLast(new HelloServerHandler());
                         }
                     });
                     /**
@@ -62,20 +62,20 @@ public class HelloServer {
             /**
              * 绑定端口并等待连接
              */
-            ChannelFuture f = b.bind(port).sync();
+             b.bind(port).sync();
 
             // Wait until the server socket is closed.
             // In this example, this does not happen, but you can do that to gracefully
             // shut down your server.
-            f.channel().closeFuture().sync();
+            //f.channel().closeFuture().sync();
         } finally {
-            workerGroup.shutdownGracefully();
-            bossGroup.shutdownGracefully();
+            //workerGroup.shutdownGracefully();
+            //bossGroup.shutdownGracefully();
         }
     }
 
     public static void main(String[] args) throws Exception {
-        int port = 8080;
+        int port = 8088;
         if (args.length > 0) {
             port = Integer.parseInt(args[0]);
         }

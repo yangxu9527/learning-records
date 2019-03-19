@@ -28,15 +28,18 @@ public class RpcConsumer {
      */
     public Object createProxy(final Class<?> serviceClass,
                               final String providerName) {
-        return Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
-                new Class<?>[]{serviceClass}, (proxy, method, args) -> {
+        Object o = Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
+                new Class<?>[]{ serviceClass }, (proxy, method, args) -> {
                     if (client == null) {
                         initClient();
                     }
                     // 设置参数
                     client.setPara(providerName + args[0]);
+
+
                     return executor.submit(client).get();
                 });
+        return o;
     }
 
     /**
@@ -44,38 +47,24 @@ public class RpcConsumer {
      */
     private static void initClient() {
         client = new HelloClientHandler();
-        String host = "127.0.0.1";
-        int port = 8080;
-       /* String host = args[0];
-        int port = Integer.parseInt(args[1]);*/
-        EventLoopGroup workerGroup = new NioEventLoopGroup();
-
+        EventLoopGroup group = new NioEventLoopGroup();
+        Bootstrap b = new Bootstrap();
+        b.group(group)
+                .channel(NioSocketChannel.class)
+                .option(ChannelOption.TCP_NODELAY, true)
+                .handler(new ChannelInitializer<SocketChannel>() {
+                    @Override
+                    public void initChannel(SocketChannel ch) throws Exception {
+                        ChannelPipeline p = ch.pipeline();
+                        p.addLast(new StringDecoder());
+                        p.addLast(new StringEncoder());
+                        p.addLast(client);
+                    }
+                });
         try {
-            Bootstrap b = new Bootstrap();
-            b.group(workerGroup);
-            b.channel(NioSocketChannel.class);
-            b.option(ChannelOption.TCP_NODELAY, true);
-            b.handler(new ChannelInitializer<SocketChannel>() {
-                @Override
-                public void initChannel(SocketChannel ch) throws Exception {
-                    ChannelPipeline p = ch.pipeline();
-                    p.addLast(new StringDecoder());
-                    p.addLast(new StringEncoder());
-                    p.addLast(client);
-                }
-            });
-
-            /**
-             * 连接服务器
-             */
-            ChannelFuture f = b.connect(host, port).sync();
-
-            // Wait until the connection is closed.
-            f.channel().closeFuture().sync();
-        } catch (Exception e) {
+            b.connect("localhost", 8088).sync();
+        } catch (InterruptedException e) {
             e.printStackTrace();
-        } /*finally {
-            workerGroup.shutdownGracefully();
-        }*/
+        }
     }
 }

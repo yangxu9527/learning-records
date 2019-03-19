@@ -12,12 +12,11 @@ public class ClientTest {
     public static final String providerName = "HelloService#hello#";
 
     public static void main(String[] args) throws InterruptedException {
-
         RpcConsumer consumer = new RpcConsumer();
         // 创建一个代理对象
         HelloService service = (HelloService) consumer
                 .createProxy(HelloService.class, providerName);
-        for (; ; ) {
+        while (true) {
             System.out.println(service.hello("are you ok ?"));
             Thread.sleep(1000);
         }

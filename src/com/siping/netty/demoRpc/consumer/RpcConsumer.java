@@ -36,7 +36,6 @@ public class RpcConsumer {
                     // 设置参数
                     client.setPara(providerName + args[0]);
 
-
                     return executor.submit(client).get();
                 });
         return o;

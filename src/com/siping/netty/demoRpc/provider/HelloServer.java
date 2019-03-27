@@ -49,20 +49,20 @@ public class HelloServer {
                             p.addLast(new HelloServerHandler());
                         }
                     });
-                    /**
-                     * 对应操作系统中的ChannelOption
-                     */
-                    //.option(ChannelOption.SO_BACKLOG, 128)
-                    /**
-                     * option主要是设置的ServerChannel的一些选项，而childOption主要是设置的ServerChannel的子Channel的选项。
-                     * 如果是Bootstrap的话，只会有option而没有childOption，所以设置的是客户端Channel的选项。
-                     */
-                    //.childOption(ChannelOption.SO_KEEPALIVE, true);
+            /**
+             * 对应操作系统中的ChannelOption
+             */
+            //.option(ChannelOption.SO_BACKLOG, 128)
+            /**
+             * option主要是设置的ServerChannel的一些选项，而childOption主要是设置的ServerChannel的子Channel的选项。
+             * 如果是Bootstrap的话，只会有option而没有childOption，所以设置的是客户端Channel的选项。
+             */
+            //.childOption(ChannelOption.SO_KEEPALIVE, true);
 
             /**
              * 绑定端口并等待连接
              */
-             b.bind(port).sync();
+            b.bind(port).sync();
 
             // Wait until the server socket is closed.
             // In this example, this does not happen, but you can do that to gracefully

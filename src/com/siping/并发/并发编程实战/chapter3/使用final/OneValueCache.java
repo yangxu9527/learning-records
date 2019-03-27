@@ -28,7 +28,7 @@ import java.math.BigInteger;
  *
  *        通常，发布一个静态构造的对象，最简单和最安全的方式是使用静态的初始化容器：
  *        public static Holder holder = new Holder(42);
- *        
+ *
  *
  */
 public class OneValueCache {

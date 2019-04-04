@@ -29,7 +29,7 @@ public class Demo1 implements Runnable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println("i的值为：" + i + "执行时间：" + (System.currentTimeMillis()-l));
+        System.out.println("i的值为：" + i + "执行时间：" + (System.currentTimeMillis() - l));
     }
 
     @Override

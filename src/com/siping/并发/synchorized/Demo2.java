@@ -54,6 +54,5 @@ public class Demo2 implements Runnable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
     }
 }

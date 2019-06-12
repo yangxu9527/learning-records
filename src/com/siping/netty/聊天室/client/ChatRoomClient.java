@@ -1,4 +1,4 @@
-package com.siping.netty.client;
+package com.siping.netty.聊天室.client;
 
 import java.net.InetSocketAddress;
 
@@ -10,12 +10,12 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
-public class EchoClient {
+public class ChatRoomClient {
 
     private final String host;
     private final int port;
     
-    public EchoClient(String host, int port) {
+    public ChatRoomClient(String host, int port) {
         this.host = host;
         this.port = port;
     }
@@ -28,20 +28,20 @@ public class EchoClient {
             .handler(new ChannelInitializer<SocketChannel>() {
                 @Override
                 protected void initChannel(SocketChannel ch) throws Exception {
-                    ch.pipeline().addLast(new EchoClientHandler());
+                    ch.pipeline().addLast(new ClientTransferMsgHandler(), new ChatRoomClientHandler());
                 }
             });
-            ChannelFuture f = b.connect().sync();
+            ChannelFuture f = b.connect(host, port).sync();
             f.channel().closeFuture().sync();
         } catch (Exception e) {
             e.printStackTrace();
             group.shutdownGracefully().sync();
         } finally {
-            group.spliterator();
+        	group.shutdownGracefully();
         }
     }
     
     public static void main(String[] args) throws Exception {
-        new EchoClient("localhost", 65535).start();
+        new ChatRoomClient("localhost", 65535).start();
     }
 }

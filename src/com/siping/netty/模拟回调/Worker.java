@@ -16,9 +16,8 @@ public class Worker {
             }
             
             @Override
-            public void onData(Data data) throws Exception {
+            public void onData(Data data) {
                 System.out.println("Data  received:  " + data);
-                
             }
         });
     }

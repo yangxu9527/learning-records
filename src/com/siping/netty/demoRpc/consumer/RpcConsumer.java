@@ -28,6 +28,7 @@ public class RpcConsumer {
      */
     public Object createProxy(final Class<?> serviceClass,
                               final String providerName) {
+
         Object o = Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
                 new Class<?>[]{ serviceClass }, (proxy, method, args) -> {
                     if (client == null) {

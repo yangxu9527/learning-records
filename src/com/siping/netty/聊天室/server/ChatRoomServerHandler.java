@@ -12,14 +12,20 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.util.Attribute;
+import io.netty.util.AttributeKey;
 import io.netty.util.ReferenceCountUtil;
 
 public class ChatRoomServerHandler extends ChannelInboundHandlerAdapter {
-    
+
+    /**
+     * 保存会话数据
+     */
+    private AttributeKey<Integer> key = AttributeKey.valueOf("test");
+
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
 		System.out.println("jsbintask-client进入聊天室。");
-
         Message message = new Message(Constants.SERVER, new Date(), "Hello, I'm jsbintask-server side.");
         ByteBuf buffer = ctx.alloc().buffer();
         String content = Utils.encodeMsg(message);
@@ -41,8 +47,15 @@ public class ChatRoomServerHandler extends ChannelInboundHandlerAdapter {
      */
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg1) throws Exception {
-    	try {
+        Attribute<Integer> attr = ctx.channel().attr(key);
+        if (attr.get() == null) {
+            attr.set(1);
+        }else {
+            attr.set((attr.get() + 1));
+        }
+        try {
             Message msg = (Message) msg1;
+            System.out.println("第[" + attr.get() + "]次接收到消息");
             Utils.printMsg(msg);
             Scanner scanner = new Scanner(System.in);
             System.out.print("jsbintask-server, please input msg: ");
@@ -57,13 +70,13 @@ public class ChatRoomServerHandler extends ChannelInboundHandlerAdapter {
     }
 
     @Override
-    public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
-        ctx.writeAndFlush(Unpooled.EMPTY_BUFFER).addListener(ChannelFutureListener.CLOSE);
+    public void channelReadComplete(ChannelHandlerContext ctx) {
+        //ctx.writeAndFlush(Unpooled.EMPTY_BUFFER).addListener(ChannelFutureListener.CLOSE);
     }
     
     /**捕获异常*/
     @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         cause.printStackTrace();
         ctx.close();
     }

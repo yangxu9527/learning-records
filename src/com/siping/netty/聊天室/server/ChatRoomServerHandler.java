@@ -7,6 +7,9 @@ import com.siping.netty.聊天室.Constants;
 import com.siping.netty.聊天室.Message;
 import com.siping.netty.聊天室.Utils;
 
+import com.siping.netty.聊天室.session.ChannelUtils;
+import com.siping.netty.聊天室.session.IoSession;
+import com.siping.netty.聊天室.session.ServerManager;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
@@ -25,6 +28,10 @@ public class ChatRoomServerHandler extends ChannelInboundHandlerAdapter {
 
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        if (!ChannelUtils.addChannelSession(ctx.channel(), new IoSession(ctx.channel()))) {
+            ctx.channel().close();
+        }
+        ServerManager.INSTANCE.sendPacketTo("fdddddddd", 1L);
 		System.out.println("jsbintask-client进入聊天室。");
         Message message = new Message(Constants.SERVER, new Date(), "Hello, I'm jsbintask-server side.");
         ByteBuf buffer = ctx.alloc().buffer();

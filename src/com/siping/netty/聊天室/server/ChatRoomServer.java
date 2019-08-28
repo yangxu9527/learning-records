@@ -21,19 +21,15 @@ public class ChatRoomServer {
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workGroup = new NioEventLoopGroup();
         try {
-            // create ServerBootstrap instance
             ServerBootstrap b = new ServerBootstrap();
-            // Specifies NIO transport, local socket address
-            // Adds handler to channel pipeline
             b.group(bossGroup, workGroup).channel(NioServerSocketChannel.class).localAddress(port)
                 .childHandler(new ChannelInitializer<Channel>() {
                 @Override
-                protected void initChannel(Channel ch) throws Exception {
+                protected void initChannel(Channel ch) {
                     ch.pipeline().addLast(new MessageEncoder(), new ServerTransferMsgHandler(), new ChatRoomServerHandler());
                 }
             });
 
-            // Binds server, waits for server to close, and releases resources
             ChannelFuture f = b.bind().sync();
             System.out.println(ChatRoomServer.class.getName() + "started and listen on “" + f.channel().localAddress());
             f.channel().closeFuture().sync();

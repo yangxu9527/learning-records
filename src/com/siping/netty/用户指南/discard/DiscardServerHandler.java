@@ -1,9 +1,7 @@
 package com.siping.netty.用户指南.discard;
 
-import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.util.ReferenceCountUtil;
 
 /**
  * discard协议：最简单的协议，接收什么就丢掉什么

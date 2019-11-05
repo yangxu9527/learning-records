@@ -9,36 +9,16 @@ import org.junit.Test;
  */
 public class ListNodeDemo {
 
+
     /**
      * 查找元素
      */
     @Test
     public void getNode() {
-        ListNode headNode = new ListNode();
-        ListNode listNode = getListNode(0, 100, headNode);
-        ListNode p = headNode;
-        while (p.getNext() != null) {
-            System.out.println(p.getData());
-            p = p.getNext();
-        }
-
-    }
-
-    /**
-     * 生成一个单链表
-     * @param count
-     * @param size
-     * @param listNode
-     * @return
-     */
-    private ListNode getListNode(int count, int size, ListNode listNode) {
-        ListNode node = new ListNode();
-        listNode.setData(count);
-        listNode.setNext(node);
-        count++;
-        if (count < size){
-            getListNode(count, size, node);
-        }
-        return listNode;
+        MyLinkedList list = new MyLinkedList();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        System.out.println(list.get(0));
     }
 }

@@ -10,6 +10,13 @@ public class ListNode {
     private Object data;
     private ListNode next;
 
+    public ListNode() {
+    }
+
+    public ListNode(Object data) {
+        this.data = data;
+    }
+
     public Object getData() {
         return data;
     }

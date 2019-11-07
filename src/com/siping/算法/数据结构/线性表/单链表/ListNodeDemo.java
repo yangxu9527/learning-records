@@ -8,8 +8,6 @@ import org.junit.Test;
  * @description:
  */
 public class ListNodeDemo {
-
-
     /**
      * 查找元素
      */
@@ -20,5 +18,9 @@ public class ListNodeDemo {
         list.add(2);
         list.add(3);
         System.out.println(list.get(0));
+        list.add(9, 5);
+        System.out.println(list.get(0));
+        list.clear();
+        System.out.println(list.size());
     }
 }

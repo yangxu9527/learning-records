@@ -26,14 +26,44 @@ public class MyLinkedList {
         }
     }
 
+    /**
+     * 指定位置新增元素
+     *
+     * @param index
+     * @param data
+     */
     public void add(int index, Object data) {
         if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException();
         }
+        ListNode previous = headNode.getNext();
+        ListNode node = new ListNode(data);
         if (index == 0) {
-            ListNode originNode = headNode.getNext();
+            headNode.setNext(node);
+            node.setNext(previous);
+        } else {
+            int j = 1;
+            while (j < index) {
+                previous = previous.getNext();
+                j++;
+            }
+            node.setNext(previous.getNext());
+            previous.setNext(node);
         }
+        size++;
+    }
 
+    public void clear() {
+        ListNode p, q;
+        p = headNode.getNext();
+        while (p.getNext() != null) {
+            q = p.getNext();
+            p.setNext(null);
+            p = q;
+        }
+        headNode.setNext(null);
+        size = 0;
+        last = headNode;
     }
 
     public Object get(int index) {
@@ -43,10 +73,13 @@ public class MyLinkedList {
         int j = 0;
         ListNode node = headNode.getNext();
         while (j < index) {
-            node = headNode.getNext();
+            node = node.getNext();
             j++;
         }
         return node.getData();
     }
 
+    public int size() {
+        return size;
+    }
 }

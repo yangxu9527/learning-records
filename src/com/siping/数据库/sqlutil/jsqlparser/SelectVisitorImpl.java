@@ -11,11 +11,7 @@ import net.sf.jsqlparser.statement.values.ValuesStatement;
  * @date 2020/4/15 10:32
  * @description:
  */
-public class SelectVisitorImpl extends AbstractVisitor implements SelectVisitor {
-
-    public SelectVisitorImpl(VisitContext ctx) {
-        super(ctx);
-    }
+public class SelectVisitorImpl implements SelectVisitor {
 
     // 主要工作就是实现各种底层visitor，然后在解析的时候添加条件
     // 正常的select，也就是包含全部属性的select
@@ -24,18 +20,18 @@ public class SelectVisitorImpl extends AbstractVisitor implements SelectVisitor 
         // 访问 select
         if (plainSelect.getSelectItems() != null) {
             for (SelectItem item : plainSelect.getSelectItems()) {
-                item.accept(new SelectItemVisitorImpl(this.context));
+                item.accept(new SelectItemVisitorImpl());
             }
         }
 
         // 访问from
         FromItem fromItem = plainSelect.getFromItem();
-        FromItemVisitorImpl fromItemVisitorImpl = new FromItemVisitorImpl(this.context);
+        FromItemVisitorImpl fromItemVisitorImpl = new FromItemVisitorImpl();
         fromItem.accept(fromItemVisitorImpl);
 
         // 访问where
         if (plainSelect.getWhere() != null) {
-            plainSelect.getWhere().accept(new ExpressionVisitorImpl(this.context));
+            plainSelect.getWhere().accept(new ExpressionVisitorImpl());
         }
 
         //过滤增强的条件
@@ -53,7 +49,7 @@ public class SelectVisitorImpl extends AbstractVisitor implements SelectVisitor 
         // 访问join
         if (plainSelect.getJoins() != null) {
             for (Join join : plainSelect.getJoins()) {
-                join.getRightItem().accept(new FromItemVisitorImpl(this.context));
+                join.getRightItem().accept(new FromItemVisitorImpl());
             }
         }
 
@@ -62,27 +58,27 @@ public class SelectVisitorImpl extends AbstractVisitor implements SelectVisitor 
             for (OrderByElement orderByElement : plainSelect
                     .getOrderByElements()) {
                 orderByElement.getExpression().accept(
-                        new ExpressionVisitorImpl(this.context));
+                        new ExpressionVisitorImpl());
             }
         }
 
         // 访问group by having
         if (plainSelect.getHaving() != null) {
-            plainSelect.getHaving().accept(new ExpressionVisitorImpl(this.context));
+            plainSelect.getHaving().accept(new ExpressionVisitorImpl());
         }
     }
 
     @Override
     public void visit(SetOperationList setOperationList) {
         for (SelectBody plainSelect : setOperationList.getSelects()) {
-            plainSelect.accept(new SelectVisitorImpl(this.context));
+            plainSelect.accept(new SelectVisitorImpl());
         }
 
     }
 
     @Override
     public void visit(WithItem withItem) {
-        withItem.getSelectBody().accept(new SelectVisitorImpl(this.context));
+        withItem.getSelectBody().accept(new SelectVisitorImpl());
     }
 
     @Override

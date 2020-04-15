@@ -14,16 +14,12 @@ import net.sf.jsqlparser.statement.select.WithItem;
  * @date 2020/4/15 10:36
  * @description:
  */
-public class ExpressionVisitorImpl extends AbstractVisitor implements ExpressionVisitor {
-
-    public ExpressionVisitorImpl(VisitContext context) {
-        super(context);
-    }
+public class ExpressionVisitorImpl implements ExpressionVisitor {
 
     // 单表达式
     @Override
     public void visit(SignedExpression signedExpression) {
-        signedExpression.accept(new ExpressionVisitorImpl(this.context));
+        signedExpression.accept(new ExpressionVisitorImpl());
     }
 
     // jdbc参数
@@ -39,39 +35,15 @@ public class ExpressionVisitorImpl extends AbstractVisitor implements Expression
     //
     @Override
     public void visit(Parenthesis parenthesis) {
-        parenthesis.getExpression().accept(new ExpressionVisitorImpl(this.context));
-        /*ExpressionVisitorImpl ev = new ExpressionVisitorImpl(context);
-        parenthesis.getExpression().accept(ev);
-        if (ev.isNotValid()) {
-            parenthesis.setExpression(this.createTrueEquals());
-        }*/
+        parenthesis.getExpression().accept(new ExpressionVisitorImpl());
     }
 
     // between
     @Override
-    public void visit(Between btw) {
-        Expression start = btw.getBetweenExpressionStart();
-        Expression end = btw.getBetweenExpressionEnd();
-        if (start instanceof JdbcParameter && end instanceof JdbcParameter) {
-            Object o1 = this.context.getFirstParam();
-            Object o2 = this.context.getParam(1);
-            if (o1 == null || o2 == null) {
-                this.context.removeFirstParam();
-                this.context.removeFirstParam();
-                this.setValid(false);
-                return;
-            }
-        } else if (start instanceof JdbcParameter || end instanceof JdbcParameter) {
-            Object o1 = this.context.getFirstParam();
-            if (o1 == null) {
-                this.context.removeFirstParam();
-                this.setValid(false);
-                return;
-            }
-        }
-        btw.getLeftExpression().accept(new ExpressionVisitorImpl(context));
-        btw.getBetweenExpressionStart().accept(new ExpressionVisitorImpl(context));
-        btw.getBetweenExpressionEnd().accept(new ExpressionVisitorImpl(context));
+    public void visit(Between between) {
+        between.getLeftExpression().accept(new ExpressionVisitorImpl());
+        between.getBetweenExpressionStart().accept(new ExpressionVisitorImpl());
+        between.getBetweenExpressionEnd().accept(new ExpressionVisitorImpl());
     }
 
     // in表达式
@@ -79,11 +51,11 @@ public class ExpressionVisitorImpl extends AbstractVisitor implements Expression
     public void visit(InExpression inExpression) {
         if (inExpression.getLeftExpression() != null) {
             inExpression.getLeftExpression()
-                    .accept(new ExpressionVisitorImpl(this.context));
+                    .accept(new ExpressionVisitorImpl());
         } else if (inExpression.getLeftItemsList() != null) {
-            inExpression.getLeftItemsList().accept(new ItemsListVisitorImpl(this.context));
+            inExpression.getLeftItemsList().accept(new ItemsListVisitorImpl());
         }
-        inExpression.getRightItemsList().accept(new ItemsListVisitorImpl(this.context));
+        inExpression.getRightItemsList().accept(new ItemsListVisitorImpl());
     }
 
     // 子查询
@@ -91,31 +63,31 @@ public class ExpressionVisitorImpl extends AbstractVisitor implements Expression
     public void visit(SubSelect subSelect) {
         if (subSelect.getWithItemsList() != null) {
             for (WithItem withItem : subSelect.getWithItemsList()) {
-                withItem.accept(new SelectVisitorImpl(this.context));
+                withItem.accept(new SelectVisitorImpl());
             }
         }
-        subSelect.getSelectBody().accept(new SelectVisitorImpl(this.context));
+        subSelect.getSelectBody().accept(new SelectVisitorImpl());
     }
 
     // exist
     @Override
     public void visit(ExistsExpression existsExpression) {
         existsExpression.getRightExpression().accept(
-                new ExpressionVisitorImpl(this.context));
+                new ExpressionVisitorImpl());
     }
 
     // allComparisonExpression??
     @Override
     public void visit(AllComparisonExpression allComparisonExpression) {
         allComparisonExpression.getSubSelect().getSelectBody()
-                .accept(new SelectVisitorImpl(this.context));
+                .accept(new SelectVisitorImpl());
     }
 
     // anyComparisonExpression??
     @Override
     public void visit(AnyComparisonExpression anyComparisonExpression) {
         anyComparisonExpression.getSubSelect().getSelectBody()
-                .accept(new SelectVisitorImpl(this.context));
+                .accept(new SelectVisitorImpl());
     }
 
     // oexpr??
@@ -141,7 +113,7 @@ public class ExpressionVisitorImpl extends AbstractVisitor implements Expression
     // cast
     @Override
     public void visit(CastExpression cast) {
-        cast.getLeftExpression().accept(new ExpressionVisitorImpl(this.context));
+        cast.getLeftExpression().accept(new ExpressionVisitorImpl());
     }
 
     // 加法
@@ -170,18 +142,8 @@ public class ExpressionVisitorImpl extends AbstractVisitor implements Expression
 
     // and表达式
     @Override
-    public void visit(AndExpression and) {
-        visitBinaryExpression(and);
-        /*ExpressionVisitorImpl left = new ExpressionVisitorImpl(this.getContext());
-        and.getLeftExpression().accept(left);
-        if (left.isNotValid()) {
-            and.setLeftExpression(this.createTrueEquals());
-        }
-        ExpressionVisitorImpl right = new ExpressionVisitorImpl(this.getContext());
-        and.getRightExpression().accept(right);
-        if (right.isNotValid()) {
-            and.setRightExpression(this.createTrueEquals());
-        }*/
+    public void visit(AndExpression andExpression) {
+        visitBinaryExpression(andExpression);
     }
 
     // or表达式
@@ -278,6 +240,14 @@ public class ExpressionVisitorImpl extends AbstractVisitor implements Expression
     @Override
     public void visit(RegExpMySQLOperator regExpMySQLOperator) {
         visitBinaryExpression(regExpMySQLOperator);
+    }
+
+    // 二元表达式
+    public void visitBinaryExpression(BinaryExpression binaryExpression) {
+        binaryExpression.getLeftExpression()
+                .accept(new ExpressionVisitorImpl());
+        binaryExpression.getRightExpression().accept(
+                new ExpressionVisitorImpl());
     }
 
     // -------------------------下面都是没用到的-----------------------------------

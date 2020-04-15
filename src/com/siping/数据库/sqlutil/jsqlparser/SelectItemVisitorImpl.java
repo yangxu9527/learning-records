@@ -10,11 +10,8 @@ import net.sf.jsqlparser.statement.select.SelectItemVisitor;
  * @date 2020/4/15 10:36
  * @description:
  */
-public class SelectItemVisitorImpl  extends AbstractVisitor implements SelectItemVisitor {
+public class SelectItemVisitorImpl implements SelectItemVisitor {
 
-    public SelectItemVisitorImpl(VisitContext ctx) {
-        super(ctx);
-    }
 
     @Override
     public void visit(AllColumns allColumns) {
@@ -28,6 +25,6 @@ public class SelectItemVisitorImpl  extends AbstractVisitor implements SelectIte
 
     @Override
     public void visit(SelectExpressionItem selectExpressionItem) {
-        selectExpressionItem.getExpression().accept(new ExpressionVisitorImpl(this.context));
+        selectExpressionItem.getExpression().accept(new ExpressionVisitorImpl());
     }
 }

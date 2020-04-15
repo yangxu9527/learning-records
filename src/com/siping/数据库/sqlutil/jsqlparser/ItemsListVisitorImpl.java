@@ -15,14 +15,11 @@ import java.util.List;
  * @date 2020/4/15 10:55
  * @description:
  */
-public class ItemsListVisitorImpl extends AbstractVisitor implements ItemsListVisitor {
-    public ItemsListVisitorImpl(VisitContext ctx) {
-        super(ctx);
-    }
+public class ItemsListVisitorImpl implements ItemsListVisitor {
 
     @Override
     public void visit(SubSelect subSelect) {
-        subSelect.getSelectBody().accept(new SelectVisitorImpl(context));
+        subSelect.getSelectBody().accept(new SelectVisitorImpl());
     }
 
     @Override
@@ -30,7 +27,7 @@ public class ItemsListVisitorImpl extends AbstractVisitor implements ItemsListVi
         List<Expression> list = expressionList.getExpressions();
         if (list != null && list.size() != 0) {
             for (Expression expr : list) {
-                expr.accept(new ExpressionVisitorImpl(context));
+                expr.accept(new ExpressionVisitorImpl());
             }
         }
     }

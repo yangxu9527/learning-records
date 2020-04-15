@@ -17,15 +17,11 @@ import java.util.List;
  * @date 2020/4/15 10:39
  * @description:
  */
-public class FromItemVisitorImpl extends AbstractVisitor implements FromItemVisitor {
+public class FromItemVisitorImpl implements FromItemVisitor {
 
     private String varPattern = "@\\{\\s*?(\\w+)\\s*?\\}";
     // 声明增强条件
     private Expression enhancedCondition;
-
-    public FromItemVisitorImpl(VisitContext ctx) {
-        super(ctx);
-    }
 
     // FROM 表名 <----主要的就是这个，判断用户对这个表有没有权限
     @Override
@@ -35,31 +31,31 @@ public class FromItemVisitorImpl extends AbstractVisitor implements FromItemVisi
             //根据表名获取该用户对于该表的限制条件
             List<TableCondition> test = UserUtils.getTableCondition(tableName.getFullyQualifiedName().toUpperCase());
             //If the TableConditionList is exist
-            if (test != null) {
+            if (test!=null) {
                 //增强sql
                 for (TableCondition tableCondition : test) {
                     // 声明表达式数组
                     Expression[] expressions = new Expression[0];
                     // 如果操作符是between
-                    if ("between".equalsIgnoreCase(tableCondition.getOperator()) || "not between".equalsIgnoreCase(tableCondition.getOperator())) {
-                        expressions = new Expression[]{new LongValue(tableCondition.getFieldName()), new LongValue(tableCondition.getOperator()), new LongValue(tableCondition.getFieldValue())};
-                    } else if ("is null".equalsIgnoreCase(tableCondition.getOperator()) || "is not null".equalsIgnoreCase(tableCondition.getOperator())) {
+                    if ("between".equalsIgnoreCase(tableCondition.getOperator())|| "not between".equalsIgnoreCase(tableCondition.getOperator())) {
+                        //expressions = new Expression[] { new LongValue(tableCondition.getFieldName()),new LongValue(tableCondition.getOperator()),new LongValue(tableCondition.getFieldValue()) };
+                    } else if ("is null".equalsIgnoreCase(tableCondition.getOperator())|| "is not null".equalsIgnoreCase(tableCondition.getOperator())) {
                         // 如果操作符是 is null或者是is not null的时候
-                        expressions = new Expression[]{new LongValue(tableCondition.getFieldName())};
+                        //expressions = new Expression[] { new LongValue(	tableCondition.getFieldName()) };
                     } else {
                         // 其他情况,也就是最常用的情况，比如where   1 = 1
-                        Column column = new Column(new Table(tableName.getAlias() != null ? tableName.getAlias().getName() : tableName.getFullyQualifiedName()), tableCondition.getFieldName());
+                        Column column = new Column(new Table(tableName.getAlias()!=null?tableName.getAlias().getName():tableName.getFullyQualifiedName()), tableCondition.getFieldName());
                         if ("1".equals(tableCondition.getFieldName())) {
-                            expressions = new Expression[]{new LongValue(tableCondition.getFieldName()), new LongValue(tableCondition.getFieldValue())};
-                        } else {
-                            expressions = new Expression[]{column, new StringValue(tableCondition.getFieldValue())};
+                            expressions = new Expression[] {new LongValue(tableCondition.getFieldName()),new LongValue(tableCondition.getFieldValue())};
+                        }else{
+                            expressions = new Expression[] {column,new StringValue(tableCondition.getFieldValue())};
                         }
                     }
                     // 根据运算符对原始数据进行拼接
                     Expression operator = this.getOperator(
                             tableCondition.getOperator(), expressions);
                     if (this.enhancedCondition != null) {
-                        enhancedCondition = new AndExpression(enhancedCondition, operator);
+                        enhancedCondition = new AndExpression(enhancedCondition , operator);
                     } else {
                         enhancedCondition = operator;
                     }
@@ -72,22 +68,21 @@ public class FromItemVisitorImpl extends AbstractVisitor implements FromItemVisi
     @Override
     public void visit(SubSelect subSelect) {
         // 如果是子查询的话返回到select接口实现类
-        subSelect.getSelectBody().accept(new SelectVisitorImpl(this.context));
+        subSelect.getSelectBody().accept(new SelectVisitorImpl());
     }
 
     // FROM subjoin
     @Override
     public void visit(SubJoin subjoin) {
-        subjoin.getLeft().accept(new FromItemVisitorImpl(this.context));
-
-        //subjoin.getJoin().getRightItem().accept(new FromItemVisitorImpl());
+        subjoin.getLeft().accept(new FromItemVisitorImpl());
+        //TODO subjoin.getJoin().getRightItem().accept(new FromItemVisitorImpl());
     }
 
     // FROM 横向子查询
     @Override
     public void visit(LateralSubSelect lateralSubSelect) {
         lateralSubSelect.getSubSelect().getSelectBody()
-                .accept(new SelectVisitorImpl(this.context));
+                .accept(new SelectVisitorImpl());
     }
 
     // FROM value列表
@@ -197,5 +192,4 @@ public class FromItemVisitorImpl extends AbstractVisitor implements FromItemVisi
         }
         return flag;
     }
-
 }

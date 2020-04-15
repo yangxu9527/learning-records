@@ -6,7 +6,8 @@ package com.siping.leetcode.链表;
 public class MergeTwoLists {
     
     public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
-        ListNode target = new ListNode(0); // 设置头节点
+        // 设置头节点
+        ListNode target = new ListNode(0);
         if(l1 == null) {
             return l2;
         }

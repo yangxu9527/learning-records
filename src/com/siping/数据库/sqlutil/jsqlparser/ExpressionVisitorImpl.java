@@ -1,0 +1,444 @@
+package com.siping.数据库.sqlutil.jsqlparser;
+
+import net.sf.jsqlparser.expression.*;
+import net.sf.jsqlparser.expression.operators.arithmetic.*;
+import net.sf.jsqlparser.expression.operators.conditional.AndExpression;
+import net.sf.jsqlparser.expression.operators.conditional.OrExpression;
+import net.sf.jsqlparser.expression.operators.relational.*;
+import net.sf.jsqlparser.schema.Column;
+import net.sf.jsqlparser.statement.select.SubSelect;
+import net.sf.jsqlparser.statement.select.WithItem;
+
+/**
+ * @author Yang Xu
+ * @date 2020/4/15 10:36
+ * @description:
+ */
+public class ExpressionVisitorImpl extends AbstractVisitor implements ExpressionVisitor {
+
+    public ExpressionVisitorImpl(VisitContext context) {
+        super(context);
+    }
+
+    // 单表达式
+    @Override
+    public void visit(SignedExpression signedExpression) {
+        signedExpression.accept(new ExpressionVisitorImpl(this.context));
+    }
+
+    // jdbc参数
+    @Override
+    public void visit(JdbcParameter jdbcParameter) {
+    }
+
+    // jdbc参数
+    @Override
+    public void visit(JdbcNamedParameter jdbcNamedParameter) {
+    }
+
+    //
+    @Override
+    public void visit(Parenthesis parenthesis) {
+        parenthesis.getExpression().accept(new ExpressionVisitorImpl(this.context));
+        /*ExpressionVisitorImpl ev = new ExpressionVisitorImpl(context);
+        parenthesis.getExpression().accept(ev);
+        if (ev.isNotValid()) {
+            parenthesis.setExpression(this.createTrueEquals());
+        }*/
+    }
+
+    // between
+    @Override
+    public void visit(Between btw) {
+        Expression start = btw.getBetweenExpressionStart();
+        Expression end = btw.getBetweenExpressionEnd();
+        if (start instanceof JdbcParameter && end instanceof JdbcParameter) {
+            Object o1 = this.context.getFirstParam();
+            Object o2 = this.context.getParam(1);
+            if (o1 == null || o2 == null) {
+                this.context.removeFirstParam();
+                this.context.removeFirstParam();
+                this.setValid(false);
+                return;
+            }
+        } else if (start instanceof JdbcParameter || end instanceof JdbcParameter) {
+            Object o1 = this.context.getFirstParam();
+            if (o1 == null) {
+                this.context.removeFirstParam();
+                this.setValid(false);
+                return;
+            }
+        }
+        btw.getLeftExpression().accept(new ExpressionVisitorImpl(context));
+        btw.getBetweenExpressionStart().accept(new ExpressionVisitorImpl(context));
+        btw.getBetweenExpressionEnd().accept(new ExpressionVisitorImpl(context));
+    }
+
+    // in表达式
+    @Override
+    public void visit(InExpression inExpression) {
+        if (inExpression.getLeftExpression() != null) {
+            inExpression.getLeftExpression()
+                    .accept(new ExpressionVisitorImpl(this.context));
+        } else if (inExpression.getLeftItemsList() != null) {
+            inExpression.getLeftItemsList().accept(new ItemsListVisitorImpl(this.context));
+        }
+        inExpression.getRightItemsList().accept(new ItemsListVisitorImpl(this.context));
+    }
+
+    // 子查询
+    @Override
+    public void visit(SubSelect subSelect) {
+        if (subSelect.getWithItemsList() != null) {
+            for (WithItem withItem : subSelect.getWithItemsList()) {
+                withItem.accept(new SelectVisitorImpl(this.context));
+            }
+        }
+        subSelect.getSelectBody().accept(new SelectVisitorImpl(this.context));
+    }
+
+    // exist
+    @Override
+    public void visit(ExistsExpression existsExpression) {
+        existsExpression.getRightExpression().accept(
+                new ExpressionVisitorImpl(this.context));
+    }
+
+    // allComparisonExpression??
+    @Override
+    public void visit(AllComparisonExpression allComparisonExpression) {
+        allComparisonExpression.getSubSelect().getSelectBody()
+                .accept(new SelectVisitorImpl(this.context));
+    }
+
+    // anyComparisonExpression??
+    @Override
+    public void visit(AnyComparisonExpression anyComparisonExpression) {
+        anyComparisonExpression.getSubSelect().getSelectBody()
+                .accept(new SelectVisitorImpl(this.context));
+    }
+
+    // oexpr??
+    @Override
+    public void visit(OracleHierarchicalExpression oexpr) {
+        if (oexpr.getStartExpression() != null) {
+            oexpr.getStartExpression().accept(this);
+        }
+
+        if (oexpr.getConnectExpression() != null) {
+            oexpr.getConnectExpression().accept(this);
+        }
+    }
+
+    // rowConstructor?
+    @Override
+    public void visit(RowConstructor rowConstructor) {
+        for (Expression expr : rowConstructor.getExprList().getExpressions()) {
+            expr.accept(this);
+        }
+    }
+
+    // cast
+    @Override
+    public void visit(CastExpression cast) {
+        cast.getLeftExpression().accept(new ExpressionVisitorImpl(this.context));
+    }
+
+    // 加法
+    @Override
+    public void visit(Addition addition) {
+        visitBinaryExpression(addition);
+    }
+
+    // 除法
+    @Override
+    public void visit(Division division) {
+        visitBinaryExpression(division);
+    }
+
+    // 乘法
+    @Override
+    public void visit(Multiplication multiplication) {
+        visitBinaryExpression(multiplication);
+    }
+
+    // 减法
+    @Override
+    public void visit(Subtraction subtraction) {
+        visitBinaryExpression(subtraction);
+    }
+
+    // and表达式
+    @Override
+    public void visit(AndExpression and) {
+        visitBinaryExpression(and);
+        /*ExpressionVisitorImpl left = new ExpressionVisitorImpl(this.getContext());
+        and.getLeftExpression().accept(left);
+        if (left.isNotValid()) {
+            and.setLeftExpression(this.createTrueEquals());
+        }
+        ExpressionVisitorImpl right = new ExpressionVisitorImpl(this.getContext());
+        and.getRightExpression().accept(right);
+        if (right.isNotValid()) {
+            and.setRightExpression(this.createTrueEquals());
+        }*/
+    }
+
+    // or表达式
+    @Override
+    public void visit(OrExpression orExpression) {
+        visitBinaryExpression(orExpression);
+    }
+
+    // 等式
+    @Override
+    public void visit(EqualsTo equalsTo) {
+        visitBinaryExpression(equalsTo);
+    }
+
+    // 大于
+    @Override
+    public void visit(GreaterThan greaterThan) {
+        visitBinaryExpression(greaterThan);
+    }
+
+    // 大于等于
+    @Override
+    public void visit(GreaterThanEquals greaterThanEquals) {
+        visitBinaryExpression(greaterThanEquals);
+    }
+
+    // like表达式
+    @Override
+    public void visit(LikeExpression likeExpression) {
+        visitBinaryExpression(likeExpression);
+    }
+
+    // 小于
+    @Override
+    public void visit(MinorThan minorThan) {
+        visitBinaryExpression(minorThan);
+    }
+
+    // 小于等于
+    @Override
+    public void visit(MinorThanEquals minorThanEquals) {
+        visitBinaryExpression(minorThanEquals);
+    }
+
+    // 不等于
+    @Override
+    public void visit(NotEqualsTo notEqualsTo) {
+        visitBinaryExpression(notEqualsTo);
+    }
+
+    // concat
+    @Override
+    public void visit(Concat concat) {
+        visitBinaryExpression(concat);
+    }
+
+    // matches?
+    @Override
+    public void visit(Matches matches) {
+        visitBinaryExpression(matches);
+    }
+
+    // bitwiseAnd位运算?
+    @Override
+    public void visit(BitwiseAnd bitwiseAnd) {
+        visitBinaryExpression(bitwiseAnd);
+    }
+
+    // bitwiseOr?
+    @Override
+    public void visit(BitwiseOr bitwiseOr) {
+        visitBinaryExpression(bitwiseOr);
+    }
+
+    // bitwiseXor?
+    @Override
+    public void visit(BitwiseXor bitwiseXor) {
+        visitBinaryExpression(bitwiseXor);
+    }
+
+    // 取模运算modulo?
+    @Override
+    public void visit(Modulo modulo) {
+        visitBinaryExpression(modulo);
+    }
+
+    // rexp??
+    @Override
+    public void visit(RegExpMatchOperator rexpr) {
+        visitBinaryExpression(rexpr);
+    }
+
+    // regExpMySQLOperator??
+    @Override
+    public void visit(RegExpMySQLOperator regExpMySQLOperator) {
+        visitBinaryExpression(regExpMySQLOperator);
+    }
+
+    // -------------------------下面都是没用到的-----------------------------------
+
+    // aexpr??
+    @Override
+    public void visit(AnalyticExpression aexpr) {
+    }
+
+    // eexpr??
+    @Override
+    public void visit(ExtractExpression eexpr) {
+    }
+
+    // iexpr??
+    @Override
+    public void visit(IntervalExpression iexpr) {
+    }
+
+    // jsonExpr??
+    @Override
+    public void visit(JsonExpression jsonExpr) {
+    }
+
+    @Override
+    public void visit(JsonOperator jsonOperator) {
+
+    }
+
+    // hint?
+    @Override
+    public void visit(OracleHint hint) {
+    }
+
+    // timeKeyExpression?
+    @Override
+    public void visit(TimeKeyExpression timeKeyExpression) {
+    }
+
+    // caseExpression?
+    @Override
+    public void visit(CaseExpression caseExpression) {
+    }
+
+    // when?
+    @Override
+    public void visit(WhenClause whenClause) {
+    }
+
+    // var??
+    @Override
+    public void visit(UserVariable var) {
+    }
+
+    // bind?
+    @Override
+    public void visit(NumericBind bind) {
+    }
+
+    // aexpr?
+    @Override
+    public void visit(KeepExpression aexpr) {
+    }
+
+    // groupConcat?
+    @Override
+    public void visit(MySQLGroupConcat groupConcat) {
+    }
+
+    @Override
+    public void visit(ValueListExpression valueListExpression) {
+
+    }
+
+    // table列
+    @Override
+    public void visit(Column tableColumn) {
+    }
+
+    // double类型值
+    @Override
+    public void visit(DoubleValue doubleValue) {
+    }
+
+    // long类型值
+    @Override
+    public void visit(LongValue longValue) {
+    }
+
+    // 16进制类型值
+    @Override
+    public void visit(HexValue hexValue) {
+    }
+
+    // date类型值
+    @Override
+    public void visit(DateValue dateValue) {
+    }
+
+    // time类型值
+    @Override
+    public void visit(TimeValue timeValue) {
+    }
+
+    // 时间戳类型值
+    @Override
+    public void visit(TimestampValue timestampValue) {
+    }
+
+    @Override
+    public void visit(BitwiseRightShift bitwiseRightShift) {
+
+    }
+
+    @Override
+    public void visit(BitwiseLeftShift bitwiseLeftShift) {
+
+    }
+
+    // 空值
+    @Override
+    public void visit(NullValue nullValue) {
+    }
+
+    // 方法
+    @Override
+    public void visit(Function function) {
+    }
+
+    // 字符串类型值
+    @Override
+    public void visit(StringValue stringValue) {
+    }
+
+    // is null表达式
+    @Override
+    public void visit(IsNullExpression isNullExpression) {
+    }
+
+    // literal?
+    @Override
+    public void visit(DateTimeLiteralExpression literal) {
+    }
+
+    @Override
+    public void visit(NotExpression notExpression) {
+
+    }
+
+    @Override
+    public void visit(NextValExpression nextValExpression) {
+
+    }
+
+    @Override
+    public void visit(CollateExpression collateExpression) {
+
+    }
+
+    @Override
+    public void visit(SimilarToExpression similarToExpression) {
+
+    }
+}

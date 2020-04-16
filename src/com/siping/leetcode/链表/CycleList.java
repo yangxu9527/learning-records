@@ -33,6 +33,27 @@ public class CycleList {
         return false;
     }
 
+    /**
+     * 双指针
+     * @param head
+     * @return
+     */
+    public boolean hasCycle2(ListNode head) {
+        if (head == null || head.next == null) {
+            return false;
+        }
+        ListNode slow = head;
+        ListNode fast = head.next;
+        while (slow != fast) {
+            if (fast == null || fast.next == null) {
+                return false;
+            }
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return true;
+    }
+
     @Test
     public void test() {
         int[] poses = {-1, -1, -1, -1};

@@ -6,7 +6,6 @@ import net.sf.jsqlparser.expression.operators.relational.ItemsListVisitor;
 import net.sf.jsqlparser.expression.operators.relational.MultiExpressionList;
 import net.sf.jsqlparser.expression.operators.relational.NamedExpressionList;
 import net.sf.jsqlparser.statement.select.SubSelect;
-import org.apache.lucene.util.CollectionUtil;
 
 import java.util.List;
 

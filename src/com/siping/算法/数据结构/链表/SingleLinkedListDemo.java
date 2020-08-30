@@ -20,6 +20,11 @@ public class SingleLinkedListDemo {
         linkedList.addByOrder(hero2);
         linkedList.addByOrder(hero2);
         linkedList.list();
+
+        HeroNode hero2update = new HeroNode(2, "小卢", "玉麒麟~~");
+        linkedList.update(hero2update);
+        System.out.println("修改后~~~~~");
+        linkedList.list();
     }
 }
 
@@ -40,6 +45,7 @@ class SingleLinkedList {
      * 思路：当不考虑编号的顺序时
      * 1.找到当前链表的最后节点
      * 2.将最后这个节点的next指向新的节点
+     *
      * @param heroNode
      */
     public void add(HeroNode heroNode) {
@@ -59,6 +65,7 @@ class SingleLinkedList {
 
     /**
      * 第二种添加方式，按照顺序添加
+     *
      * @param heroNode
      */
     public void addByOrder(HeroNode heroNode) {
@@ -92,6 +99,39 @@ class SingleLinkedList {
         }
 
 
+    }
+
+    /**
+     * 根据英雄编号修改
+     * @param newHeroNode
+     */
+    public void update(HeroNode newHeroNode) {
+        if (head.next == null) {
+            System.out.println("链表为空");
+            return;
+        }
+
+        HeroNode temp = head.next;
+        boolean flag = false;
+        while (true) {
+            if (temp == null) {
+                // 已经遍历完毕
+                break;
+            }
+            if (temp.no == newHeroNode.no) {
+                // 找到了
+                flag = true;
+                break;
+            }
+            temp =temp.next;
+        }
+        // 根据flag判断是否找到要修改的节点
+        if (flag) {
+            temp .nickname = newHeroNode.nickname;
+            temp.name = newHeroNode.name;
+        } else {
+            System.out.printf("没有找到编号%d的英雄", newHeroNode.no);
+        }
     }
 
     /**

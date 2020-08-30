@@ -7,7 +7,7 @@ import java.util.Scanner;
  * @date 2020/8/26 8:37
  * @description:
  */
-public class ArrayQueueDemo {
+public class ArrayQueueMain {
 
     public static void main(String[] args) {
         ArrayQueue queue = new ArrayQueue(5);

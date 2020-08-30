@@ -9,10 +9,16 @@ public class SingleLinkedListDemo {
         HeroNode hero4 = new HeroNode(4, "林冲", "豹子头");
 
         SingleLinkedList linkedList = new SingleLinkedList();
-        linkedList.add(hero1);
+        /*linkedList.add(hero1);
         linkedList.add(hero2);
         linkedList.add(hero3);
-        linkedList.add(hero4);
+        linkedList.add(hero4);*/
+
+        linkedList.addByOrder(hero1);
+        linkedList.addByOrder(hero4);
+        linkedList.addByOrder(hero3);
+        linkedList.addByOrder(hero2);
+        linkedList.addByOrder(hero2);
         linkedList.list();
     }
 }
@@ -49,6 +55,43 @@ class SingleLinkedList {
         }
         // 当退出while循环时，temp指向链表的最后
         temp.next = heroNode;
+    }
+
+    /**
+     * 第二种添加方式，按照顺序添加
+     * @param heroNode
+     */
+    public void addByOrder(HeroNode heroNode) {
+        // 因为头结点不能动，因此我们仍然通过一个辅助变量（指针）来帮助找到添加的位置
+        // 的temp是位于添加位置的前一个节点
+        HeroNode temp = head;
+        // 标志添加的编号是否存在，默认为false
+        boolean flag = false;
+        while (true) {
+            if (temp.next == null) {
+                // 说明temp已经到链表最后
+                break;
+            }
+            if (temp.next.no > heroNode.no) {
+                // 位置找到，就在temp后面插入
+                break;
+            } else if (temp.next.no == heroNode.no) {
+                // 说明编号存在
+                flag = true;
+                break;
+            }
+            temp = temp.next;
+        }
+        // 判断flag的值
+        if (flag) {
+            // 说明编号存在
+            System.out.printf("准备插入的英雄的编号%d 已经存在，不能加入\n", heroNode.no);
+        } else {
+            heroNode.next = temp.next;
+            temp.next = heroNode;
+        }
+
+
     }
 
     /**

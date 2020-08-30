@@ -25,6 +25,10 @@ public class SingleLinkedListDemo {
         linkedList.update(hero2update);
         System.out.println("修改后~~~~~");
         linkedList.list();
+        System.out.println("删除后~~~~~");
+        linkedList.delete(1);
+        linkedList.delete(4);
+        linkedList.list();
     }
 }
 
@@ -103,6 +107,7 @@ class SingleLinkedList {
 
     /**
      * 根据英雄编号修改
+     *
      * @param newHeroNode
      */
     public void update(HeroNode newHeroNode) {
@@ -123,15 +128,42 @@ class SingleLinkedList {
                 flag = true;
                 break;
             }
-            temp =temp.next;
+            temp = temp.next;
         }
         // 根据flag判断是否找到要修改的节点
         if (flag) {
-            temp .nickname = newHeroNode.nickname;
+            temp.nickname = newHeroNode.nickname;
             temp.name = newHeroNode.name;
         } else {
             System.out.printf("没有找到编号%d的英雄", newHeroNode.no);
         }
+    }
+
+    public void delete(int no) {
+        if (head.next == null) {
+            System.out.println("链表为空");
+            return;
+        }
+
+        HeroNode temp = head;
+        boolean flag = false;
+        while (true) {
+            if (temp.next == null) {
+                break;
+            }
+            if (temp.next.no == no) {
+                // 找到要被删除的节点
+                flag = true;
+                break;
+            }
+            temp = temp.next;
+        }
+        if (flag) {
+            temp.next = temp.next.next;
+        } else {
+            System.out.println("节点不存在");
+        }
+
     }
 
     /**

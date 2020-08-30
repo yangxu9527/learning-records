@@ -29,6 +29,49 @@ public class SingleLinkedListDemo {
         linkedList.delete(1);
         linkedList.delete(4);
         linkedList.list();
+        // 测试求链表的长度
+        System.out.println("单链表的长度：" + getLength(linkedList.getHead()));
+        // 测试查找倒数第k的节点
+        System.out.println("倒数第一个节点为：" + findLastIndexNode(linkedList.getHead(), 1));
+    }
+
+    /**
+     * 获取单链表的长度
+     * @param headNode
+     * @return
+     */
+    public static int getLength(HeroNode headNode) {
+        if (headNode.next == null) {
+            return 0;
+        }
+        int len = 0;
+        HeroNode temp = headNode.next;
+        while (temp != null) {
+            len++;
+            temp = temp.next;
+        }
+        return len;
+    }
+
+    /**
+     * 查找倒数第k个节点
+     * @param head
+     * @param index
+     * @return
+     */
+    public static HeroNode findLastIndexNode(HeroNode head, int index) {
+        if (head.next == null) {
+            return null;
+        }
+        int size = getLength(head);
+        if (index <= 0 || index > size) {
+            return null;
+        }
+        HeroNode cur = head.next;
+        for (int i = 0; i < size - index; i++) {
+            cur = cur.next;
+        }
+        return cur;
     }
 }
 
@@ -43,6 +86,10 @@ class SingleLinkedList {
      * 先初始化一个头结点，头结点不要动，不存放具体的数据
      */
     private HeroNode head = new HeroNode(0, "", "");
+
+    public HeroNode getHead() {
+        return head;
+    }
 
     /**
      * 添加节点到单向链表

@@ -1,8 +1,7 @@
-package com.siping.jna;
+package com.siping.jna.idcard;
 
 import com.sun.jna.Library;
 import com.sun.jna.Native;
-import com.sun.jna.Pointer;
 
 /**
  * 使用visual studio 创建可以调用的动态库dll
@@ -21,12 +20,10 @@ import com.sun.jna.Pointer;
  * @date 2020/8/26 19:40
  * @description:
  */
-public interface MyDll extends Library {
+public interface IdCardDll extends Library {
 
-    MyDll mydll = Native.load("D:\\04_workspace\\c\\TestDll\\Release\\TestDll.dll", MyDll.class);
+    IdCardDll mydll = Native.load("D:\\04_workspace\\gitee\\learning-records\\src\\dll\\Termb.dll", IdCardDll.class);
 
-    int add(int a, int b);
-
-    int GetPeopleIDCode(Pointer strTmp, Pointer strLen);
+    int CVR_InitComm(int port);
 
 }

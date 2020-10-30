@@ -13,8 +13,8 @@ import java.util.regex.Pattern;
 
 public class Demo {
 
-	public static void main(String[] args) {
-		URL url = null;
+    public static void main(String[] args) {
+        URL url = null;
         URLConnection urlconn = null;
         BufferedReader br = null;
         PrintWriter pw = null;
@@ -49,5 +49,5 @@ public class Demo {
             }
             pw.close();
         }
-	}
+    }
 }

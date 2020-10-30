@@ -12,10 +12,9 @@ import io.netty.handler.codec.ByteToMessageDecoder;
 
 /**
  * Byte转化为message的转换器
- *
  */
 public class ClientTransferMsgHandler extends ByteToMessageDecoder {
-	@Override
+    @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
         byte[] buff = new byte[2024];
         int length = in.readableBytes();

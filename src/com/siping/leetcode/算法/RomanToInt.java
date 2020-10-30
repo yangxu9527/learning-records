@@ -18,7 +18,7 @@ public class RomanToInt {
         map.put("C", 100);
         map.put("D", 500);
         map.put("M", 1000); // CD CM
-        
+
         char[] cs = s.toCharArray();
         int last = 0;
         int result = 0;
@@ -29,7 +29,7 @@ public class RomanToInt {
             } else if (last >= v) {
                 result += v;
             } else {
-                result = result + v - 2*last;
+                result = result + v - 2 * last;
             }
             last = v;
         }

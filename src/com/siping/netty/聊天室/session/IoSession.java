@@ -10,12 +10,16 @@ public class IoSession {
     private Channel channel;
     private User user;
 
-    /** ip地址 */
+    /**
+     * ip地址
+     */
     private String ipAddr;
 
     private boolean reconnected;
 
-    /** 拓展用，保存一些个人数据  */
+    /**
+     * 拓展用，保存一些个人数据
+     */
     private Map<String, Object> attrs = new HashMap<>();
 
     public IoSession() {
@@ -33,6 +37,7 @@ public class IoSession {
 
     /**
      * 向客户端发送消息
+     *
      * @param packet
      */
     public void sendPacket(String packet) {
@@ -76,16 +81,16 @@ public class IoSession {
      * 关闭session
      */
     public void close(SessionCloseReason reason) {
-        try{
+        try {
             if (this.channel == null) {
                 return;
             }
             if (channel.isOpen()) {
                 channel.close();
-            }else{
+            } else {
 
             }
-        }catch(Exception e){
+        } catch (Exception e) {
         }
     }
 }

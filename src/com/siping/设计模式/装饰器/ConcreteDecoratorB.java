@@ -3,10 +3,10 @@ package com.siping.设计模式.装饰器;
 /**
  * 装饰器的具体实现对象，向组件对象添加职责，operationFirst()，operationLast()为前后需要添加的功能。
  * 具体的装饰器类ConcreteDecoratorB代码相似，不在给出。
- * @author siping-yx
- * @date 2017年12月11日
- * @version 1.0
  *
+ * @author siping-yx
+ * @version 1.0
+ * @date 2017年12月11日
  */
 public class ConcreteDecoratorB extends Decorator {
 
@@ -22,7 +22,7 @@ public class ConcreteDecoratorB extends Decorator {
     // 在调用父类的operation方法之后需要执行的操作
     private void operationLast() {
         System.out.println("ConcreteDecoratorB： operationFirst...");
-    } 
+    }
 
     public void operation() {
         // 调用父类的方法，可以在调用前后执行一些附加动作

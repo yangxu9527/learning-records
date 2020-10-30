@@ -19,7 +19,7 @@ public class ProxyFactory implements MethodInterceptor {
         this.target = target;
     }
 
-    public Object getProxyInstance(){
+    public Object getProxyInstance() {
         //1.工具类
         Enhancer en = new Enhancer();
         //2.设置父类

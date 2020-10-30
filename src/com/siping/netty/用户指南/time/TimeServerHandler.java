@@ -8,6 +8,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 
 /**
  * timeserver
+ *
  * @author Xu.Yang
  * @date 2019/3/11 11 15
  * @desc: 提供了各种可以重写的事件处理程序方法 https://netty.io/wiki/user-guide-for-4.x.html
@@ -16,6 +17,7 @@ public class TimeServerHandler extends ChannelInboundHandlerAdapter {
 
     /**
      * 当连接建立后调用该方法
+     *
      * @param ctx
      */
     @Override

@@ -9,10 +9,10 @@ public class MinCostClimbingStairs {
 
     public int minCostClimbingStairs(int[] cost) {
         int len = cost.length;
-        if(len <= 1) {
+        if (len <= 1) {
             return 0;
         }
-        if(len == 2) {
+        if (len == 2) {
             return Math.min(cost[0], cost[1]);
         }
         int[] f = new int[len + 1];
@@ -25,7 +25,7 @@ public class MinCostClimbingStairs {
         }
         return f[len];
     }
-    
+
     @Test
     public void test() {
         int cost[] = {1, 100, 1, 1, 1, 100, 1, 1, 100, 1};

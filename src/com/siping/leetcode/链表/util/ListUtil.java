@@ -16,7 +16,7 @@ public class ListUtil {
         for (int pos : poses) {
             ListNode listNode = new ListNode(pos);
             nextNode.setNext(listNode);
-            nextNode=listNode;
+            nextNode = listNode;
         }
         return headNode;
     }

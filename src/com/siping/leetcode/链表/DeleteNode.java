@@ -6,6 +6,6 @@ package com.siping.leetcode.链表;
 public class DeleteNode {
 
     public void deleteNode(ListNode node) {
-        
+
     }
 }

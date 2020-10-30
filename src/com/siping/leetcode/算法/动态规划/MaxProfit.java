@@ -30,7 +30,7 @@ public class MaxProfit {
 
     @Test
     public void test() {
-        int[] prices = { 7, 1, 5, 3, 6, 4 };
+        int[] prices = {7, 1, 5, 3, 6, 4};
         MaxProfit mp = new MaxProfit();
         System.out.println(mp.maxProfit(prices));
     }

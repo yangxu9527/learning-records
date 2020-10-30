@@ -7,6 +7,7 @@ public class B_SingleThreadExecutor {
 
     /**
      * SingleThreadExecutor 如果提交了多个任务，那么这些任务会排队，每个任务结束后才执行下一个任务
+     *
      * @param args
      */
     public static void main(String[] args) {

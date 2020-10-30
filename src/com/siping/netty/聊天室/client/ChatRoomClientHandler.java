@@ -15,20 +15,20 @@ import io.netty.util.ReferenceCountUtil;
 
 public class ChatRoomClientHandler extends SimpleChannelInboundHandler<Message> {
 
-	/**
-	 * 客户端连接后不断向服务器发送消息
-	 */
-	@Override
-	public void channelActive(ChannelHandlerContext ctx) throws Exception {
-		super.channelActive(ctx);
-	}
-	
-	/**
-	 * 客户端收到服务端消息
-	 */
-	@Override
-	protected void channelRead0(ChannelHandlerContext ctx, Message msg) throws Exception {
-		try {
+    /**
+     * 客户端连接后不断向服务器发送消息
+     */
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        super.channelActive(ctx);
+    }
+
+    /**
+     * 客户端收到服务端消息
+     */
+    @Override
+    protected void channelRead0(ChannelHandlerContext ctx, Message msg) throws Exception {
+        try {
             Utils.printMsg(msg);
             Scanner scanner = new Scanner(System.in);
             System.out.print("jsbintask-client, please input msg: ");
@@ -42,12 +42,12 @@ public class ChatRoomClientHandler extends SimpleChannelInboundHandler<Message> 
         } finally {
             ReferenceCountUtil.release(msg);
         }
-	}
+    }
 
-	@Override
-	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-		cause.printStackTrace();
-		ctx.close();
-	}
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        cause.printStackTrace();
+        ctx.close();
+    }
 
 }

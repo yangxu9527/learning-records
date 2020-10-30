@@ -30,7 +30,7 @@ public class RpcConsumer {
                               final String providerName) {
 
         Object o = Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
-                new Class<?>[]{ serviceClass }, (proxy, method, args) -> {
+                new Class<?>[]{serviceClass}, (proxy, method, args) -> {
                     if (client == null) {
                         initClient();
                     }

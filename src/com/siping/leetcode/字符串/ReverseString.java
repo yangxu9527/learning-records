@@ -19,7 +19,7 @@ public class ReverseString {
         }
         return new String(res);
     }
-    
+
     /*
      * 交换中心点两边的字符
      */
@@ -33,7 +33,7 @@ public class ReverseString {
         }
         return new String(cs);
     }
-    
+
     @Test
     public void test() {
         System.out.println(reverseString2("1fdsdgsd"));

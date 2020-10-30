@@ -26,29 +26,29 @@ public class ChatRoomServerHandler extends ChannelInboundHandlerAdapter {
      */
     private AttributeKey<Integer> key = AttributeKey.valueOf("test");
 
-	@Override
-	public void channelActive(ChannelHandlerContext ctx) throws Exception {
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
         if (!ChannelUtils.addChannelSession(ctx.channel(), new IoSession(ctx.channel()))) {
             ctx.channel().close();
         }
         ServerManager.INSTANCE.sendPacketTo("fdddddddd", 1L);
-		System.out.println("jsbintask-client进入聊天室。");
+        System.out.println("jsbintask-client进入聊天室。");
         Message message = new Message(Constants.SERVER, new Date(), "Hello, I'm jsbintask-server side.");
         ByteBuf buffer = ctx.alloc().buffer();
         String content = Utils.encodeMsg(message);
         buffer.writeBytes(content.getBytes());
 
         ctx.writeAndFlush(buffer);
-	}
-	
-	/**
-	 * 客户端连接后
-	 */
+    }
+
+    /**
+     * 客户端连接后
+     */
     @Override
     public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
         System.out.println("client registered : " + ctx.name());
     }
-    
+
     /**
      * 接收到消息
      */
@@ -57,7 +57,7 @@ public class ChatRoomServerHandler extends ChannelInboundHandlerAdapter {
         Attribute<Integer> attr = ctx.channel().attr(key);
         if (attr.get() == null) {
             attr.set(1);
-        }else {
+        } else {
             attr.set((attr.get() + 1));
         }
         try {
@@ -80,8 +80,10 @@ public class ChatRoomServerHandler extends ChannelInboundHandlerAdapter {
     public void channelReadComplete(ChannelHandlerContext ctx) {
         //ctx.writeAndFlush(Unpooled.EMPTY_BUFFER).addListener(ChannelFutureListener.CLOSE);
     }
-    
-    /**捕获异常*/
+
+    /**
+     * 捕获异常
+     */
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         cause.printStackTrace();

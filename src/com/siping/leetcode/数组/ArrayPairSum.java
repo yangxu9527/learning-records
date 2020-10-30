@@ -14,48 +14,48 @@ import org.junit.Test;
  * 数组中的值不会重复
  *
  * @author yangxu
- * @date 2018年10月6日 下午9:59:50
  * @version V1.0
+ * @date 2018年10月6日 下午9:59:50
  */
 public class ArrayPairSum {
 
-	/**
-	 * 两两分组求min总和最大，则最大和第二大，第三大和第四大这样一次分组得到的总和最大， 因此最直接的方式就是先对数组排序然后再求偶数位之和
-	 */
-	public int arrayPairSum(int[] nums) {
-		Arrays.sort(nums);
-		int res = 0;
-		for (int i = 0; i < nums.length; i = i + 2) {
-			res += nums[i];
-		}
-		return res;
-	}
+    /**
+     * 两两分组求min总和最大，则最大和第二大，第三大和第四大这样一次分组得到的总和最大， 因此最直接的方式就是先对数组排序然后再求偶数位之和
+     */
+    public int arrayPairSum(int[] nums) {
+        Arrays.sort(nums);
+        int res = 0;
+        for (int i = 0; i < nums.length; i = i + 2) {
+            res += nums[i];
+        }
+        return res;
+    }
 
-	/**
-	 * 直接排序开销较大，注意提示，可以考虑创建一个数组把值，和下标对应，相当于排序了.
-	 */
-	public int arrayPairSum2(int[] nums) {
-		int[] sorts = new int[20001];
-		for (int i = 0; i < nums.length; i++) {
-			sorts[nums[i] + 10000]++;
-		}
-		int res = 0;
-		boolean odd = true;
-		for (int i = 0; i < sorts.length; i++) {
-			while (sorts[i] > 0) {
-				if (odd) {
-					res += i - 10000;
-				}
-				odd = !odd;
-				sorts[i]--;
-			}
-		}
-		return res;
-	}
+    /**
+     * 直接排序开销较大，注意提示，可以考虑创建一个数组把值，和下标对应，相当于排序了.
+     */
+    public int arrayPairSum2(int[] nums) {
+        int[] sorts = new int[20001];
+        for (int i = 0; i < nums.length; i++) {
+            sorts[nums[i] + 10000]++;
+        }
+        int res = 0;
+        boolean odd = true;
+        for (int i = 0; i < sorts.length; i++) {
+            while (sorts[i] > 0) {
+                if (odd) {
+                    res += i - 10000;
+                }
+                odd = !odd;
+                sorts[i]--;
+            }
+        }
+        return res;
+    }
 
-	@Test
-	public void test() {
-		int[] nums = { 1, 3, 2, 4, 4, 7 };
-		System.out.println(arrayPairSum2(nums));
-	}
+    @Test
+    public void test() {
+        int[] nums = {1, 3, 2, 4, 4, 7};
+        System.out.println(arrayPairSum2(nums));
+    }
 }

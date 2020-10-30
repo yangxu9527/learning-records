@@ -23,48 +23,48 @@ public class ClimbStairs {
      * f(n)=f(n-1)+f(n-2);
      */
     public int climbStairs1(int n) {
-        if(n == 1) {
+        if (n == 1) {
             return 1;
         }
-        if(n == 2) {
+        if (n == 2) {
             return 2;
         }
         return climbStairs1(n - 1) + climbStairs1(n - 2);
     }
-    
+
     /**
      * 2.增加备忘录，时间复杂度和空间复杂度都为n，容易造成内存溢出
      */
     public int climbStairs2(int n, Map<Integer, Integer> map) {
-        if(n <= 0) {
+        if (n <= 0) {
             return 0;
         }
-        if(n == 1) {
+        if (n == 1) {
             return 1;
         }
-        if(n == 2) {
+        if (n == 2) {
             return 2;
         }
-        if(map.containsKey(Integer.valueOf(n))) {
+        if (map.containsKey(Integer.valueOf(n))) {
             return map.get(Integer.valueOf(n));
-        }else {
+        } else {
             int r = climbStairs2(n - 1, map) + climbStairs2(n - 2, map);
             map.put(Integer.valueOf(n), r);
             return r;
         }
     }
-    
+
     /**
      * 3.动态规划，时间复杂度为O(n)，空间复杂度为O(1)
      */
     public int climbStairs3(int n) {
-        if(n <= 0) {
+        if (n <= 0) {
             return 0;
         }
-        if(n == 1) {
+        if (n == 1) {
             return 1;
         }
-        if(n == 2) {
+        if (n == 2) {
             return 2;
         }
         int a = 1, b = 2, r = 0;
@@ -75,7 +75,7 @@ public class ClimbStairs {
         }
         return r;
     }
-    
+
     @Test
     public void test() {
         long start = System.currentTimeMillis();
@@ -85,6 +85,6 @@ public class ClimbStairs {
         long end2 = System.currentTimeMillis();
         System.out.println(climbStairs3(5));
         long end3 = System.currentTimeMillis();
-        System.out.println("方法一花费时间：" + (end1 - start) + ",方法二花费时间：" + (end2 - end1) + ",方法二花费时间：" + (end3 - end2) );
+        System.out.println("方法一花费时间：" + (end1 - start) + ",方法二花费时间：" + (end2 - end1) + ",方法二花费时间：" + (end3 - end2));
     }
 }

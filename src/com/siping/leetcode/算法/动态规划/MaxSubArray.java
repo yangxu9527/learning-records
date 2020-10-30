@@ -14,27 +14,27 @@ public class MaxSubArray {
         int len = nums.length;
         int max = nums[0]; // 最大值
         int curSum = nums[0]; // 本轮之和
-        
+
         for (int i = 1; i < len; i++) {
             int cur = nums[i];
-            if(curSum < 0) { // 本轮相加如果小于0
-                if(cur > curSum) {
+            if (curSum < 0) { // 本轮相加如果小于0
+                if (cur > curSum) {
                     curSum = cur;
                 }
-            }else {
+            } else {
                 curSum += cur;
             }
-            if(max < curSum) {
+            if (max < curSum) {
                 max = curSum;
             }
         }
         return max;
     }
-    
+
     @Test
     public void test() {
         MaxSubArray msa = new MaxSubArray();
-        int[] nums = {-2,1,-3,4,-1,2,1,-5,4,3};
+        int[] nums = {-2, 1, -3, 4, -1, 2, 1, -5, 4, 3};
         System.out.println(msa.maxSubArray(nums));
     }
 }

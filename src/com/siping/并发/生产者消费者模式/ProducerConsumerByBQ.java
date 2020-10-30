@@ -10,7 +10,7 @@ public class ProducerConsumerByBQ {
 
     private static final int CAPACITY = 5;
 
-    public static void main(String args[]){
+    public static void main(String args[]) {
         LinkedBlockingDeque<Integer> blockingQueue = new LinkedBlockingDeque<>(CAPACITY);
 
         Thread producer1 = new Producer("P-1", blockingQueue, CAPACITY);
@@ -32,7 +32,7 @@ public class ProducerConsumerByBQ {
         int maxSize;
         int i = 0;
 
-        public Producer(String name, LinkedBlockingDeque<Integer> queue, int maxSize){
+        public Producer(String name, LinkedBlockingDeque<Integer> queue, int maxSize) {
             super(name);
             this.name = name;
             this.blockingQueue = queue;
@@ -60,7 +60,7 @@ public class ProducerConsumerByBQ {
         String name;
         int maxSize;
 
-        public Consumer(String name, LinkedBlockingDeque<Integer> queue, int maxSize){
+        public Consumer(String name, LinkedBlockingDeque<Integer> queue, int maxSize) {
             super(name);
             this.name = name;
             this.blockingQueue = queue;
@@ -68,8 +68,8 @@ public class ProducerConsumerByBQ {
         }
 
         @Override
-        public void run(){
-            while(true){
+        public void run() {
+            while (true) {
                 try {
                     int x = blockingQueue.take();
                     System.out.println("[" + name + "] Consuming : " + x);

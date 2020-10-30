@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author Xu.Yang
  * @date 2019/3/5 17 13
  * @desc: 这是线程安全的，使用原子类来进行操作，先检查后修改，保证读取、修改、写入是原子的。
- *        虽然在该例子中使用atomic是线程安全的，但如果有多个atomic成员变量则不一定是线程安全的
+ * 虽然在该例子中使用atomic是线程安全的，但如果有多个atomic成员变量则不一定是线程安全的
  */
 public class 使用Atomic2 implements Servlet {
     private final AtomicLong count = new AtomicLong(0);
@@ -30,6 +30,7 @@ public class 使用Atomic2 implements Servlet {
 
     /**
      * 分解后的因数写入到response
+     *
      * @param res
      * @param factors
      */
@@ -39,6 +40,7 @@ public class 使用Atomic2 implements Servlet {
 
     /**
      * 从请求中提取因数
+     *
      * @param req
      * @return
      */
@@ -48,6 +50,7 @@ public class 使用Atomic2 implements Servlet {
 
     /**
      * 因数分解
+     *
      * @param i
      * @return
      */

@@ -8,11 +8,10 @@ import io.netty.handler.codec.MessageToByteEncoder;
 
 /**
  * 编码器
- *
  */
 public class MessageEncoder extends MessageToByteEncoder<Message> {
 
-	@Override
+    @Override
     protected void encode(ChannelHandlerContext ctx, Message message, ByteBuf out) throws Exception {
         ByteBuf buffer = ctx.alloc().buffer();
         String content = Utils.encodeMsg(message);

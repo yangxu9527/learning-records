@@ -7,7 +7,7 @@ public class RemoveElements {
 
     public ListNode removeElements(ListNode head, int val) {
         while (head.next != null) {
-            if(head.val == val) {
+            if (head.val == val) {
                 head.val = head.next.val;
                 head.next = head.next.next;
             }

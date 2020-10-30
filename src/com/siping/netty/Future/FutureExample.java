@@ -8,13 +8,13 @@ import java.util.concurrent.Future;
 
 /**
  * 异步示例二，使用Future
- * @author siping-yx
- * @date 2018年7月30日
- * @version 1.0
  *
+ * @author siping-yx
+ * @version 1.0
+ * @date 2018年7月30日
  */
 public class FutureExample {
- 
+
     public static void main(String[] args) throws InterruptedException, ExecutionException {
         ExecutorService exec = Executors.newCachedThreadPool();
         Runnable task1 = new Runnable() {
@@ -23,14 +23,14 @@ public class FutureExample {
                 System.out.println("I m task1 ...");
             }
         };
-        
+
         Callable<Integer> task2 = new Callable<Integer>() {
             @Override
             public Integer call() throws Exception {
                 return new Integer(100);
             }
         };
-        
+
         Future<?> f1 = exec.submit(task1);
         Future<Integer> f2 = exec.submit(task2);
         System.out.println("task1 is completed?" + f1.isDone());

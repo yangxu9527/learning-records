@@ -17,7 +17,7 @@ public class D_DaemonFromFactoy implements Runnable {
             System.out.println("Interrupted ");
         }
     }
-    
+
     public static void main(String[] args) throws InterruptedException {
         // 使用自定义ThreadFactory创建线程,这里自定义了一个守护线程
         ExecutorService exec = Executors.newCachedThreadPool(new D_DaemonThreadFactory());

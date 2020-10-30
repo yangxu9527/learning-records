@@ -5,6 +5,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 
 /**
  * discard协议：最简单的协议，接收什么就丢掉什么
+ *
  * @author Xu.Yang
  * @date 2019/3/11 11 15
  * @desc: 提供了各种可以重写的事件处理程序方法
@@ -13,6 +14,7 @@ public class DiscardServerHandler extends ChannelInboundHandlerAdapter {
 
     /**
      * 从客户端接收数据
+     *
      * @param ctx
      * @param msg
      */

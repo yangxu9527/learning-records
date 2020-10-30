@@ -10,7 +10,7 @@ import java.math.BigInteger;
  * @author Xu.Yang
  * @date 2019/3/27 17 12
  * @desc: 与cache相关的操作不会相互干扰，因为OneValueCache是不可变的，并且在每条相应的代码路径中只会访问它一次。再通过volatile来确保可见性。
- *        虽然没有使用锁，但仍然是线程安全的
+ * 虽然没有使用锁，但仍然是线程安全的
  */
 public class VolatileCachedFactorizer implements Servlet {
 
@@ -31,6 +31,7 @@ public class VolatileCachedFactorizer implements Servlet {
 
     /**
      * 分解后的因数写入到response
+     *
      * @param res
      * @param factors
      */
@@ -40,6 +41,7 @@ public class VolatileCachedFactorizer implements Servlet {
 
     /**
      * 从请求中提取因数
+     *
      * @param req
      * @return
      */
@@ -49,6 +51,7 @@ public class VolatileCachedFactorizer implements Servlet {
 
     /**
      * 因数分解
+     *
      * @param i
      * @return
      */

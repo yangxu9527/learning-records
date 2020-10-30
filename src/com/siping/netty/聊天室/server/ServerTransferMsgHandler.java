@@ -12,11 +12,11 @@ import io.netty.handler.codec.ByteToMessageDecoder;
 
 /**
  * 解码器
- * @author Wei-Ping
  *
+ * @author Wei-Ping
  */
 public class ServerTransferMsgHandler extends ByteToMessageDecoder {
-	@Override
+    @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
         String totalMsg = in.readCharSequence(in.readableBytes(), Charset.forName("utf-8")).toString();
         String[] content = totalMsg.split("~");

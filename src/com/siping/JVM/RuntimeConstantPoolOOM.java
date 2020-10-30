@@ -5,10 +5,10 @@ import java.util.List;
 
 /**
  * 方法区和运行时常量池溢出（-XX:PermSize=10M -XX:MaxPermSize=10M）
- * @author siping-yx
- * @date 2017年12月5日
- * @version 1.0
  *
+ * @author siping-yx
+ * @version 1.0
+ * @date 2017年12月5日
  */
 public class RuntimeConstantPoolOOM {
 
@@ -28,10 +28,11 @@ public class RuntimeConstantPoolOOM {
             list.add(String.valueOf(i++).intern());
         }
     }*/
-    
+
     /**
      * 这段代码在JDK1.6中会得到两个false，而在JDK1.7中会得到一个true和一个false
      * 参看深入理解java虚拟机2.4.3 方法区和运行时常量池溢出
+     *
      * @param args
      */
     public static void main(String[] args) {
@@ -40,5 +41,5 @@ public class RuntimeConstantPoolOOM {
         String str2 = new StringBuffer("ja").append("va").toString();
         System.out.println(str2.intern() == str2);
     }
-    
+
 }

@@ -13,6 +13,7 @@ public class TicketSelling {
 
         /**
          * 售票
+         *
          * @param num
          */
         public void sell(int num) {

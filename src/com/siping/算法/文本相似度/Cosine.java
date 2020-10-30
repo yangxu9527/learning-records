@@ -8,7 +8,6 @@ import java.util.Map;
 /**
  * 余弦定理计算文本相似度
  * 利用余弦相似度计算文本相似度
- *
  */
 public class Cosine {
     public static double getSimilarity(String doc1, String doc2) {
@@ -77,6 +76,7 @@ public class Cosine {
 
     /**
      * 根据输入的Unicode字符，获取它的GB2312编码或者ascii编码，
+     *
      * @param ch 输入的GB2312中文字符或者ASCII字符(128个)
      * @return ch在GB2312中的位置，-1表示该字符不认识
      */

@@ -14,33 +14,33 @@ public class ChatRoomClient {
 
     private final String host;
     private final int port;
-    
+
     public ChatRoomClient(String host, int port) {
         this.host = host;
         this.port = port;
     }
-    
+
     public void start() throws Exception {
         EventLoopGroup group = new NioEventLoopGroup();
         try {
             Bootstrap b = new Bootstrap();
             b.group(group).channel(NioSocketChannel.class).remoteAddress(new InetSocketAddress(host, port))
-            .handler(new ChannelInitializer<SocketChannel>() {
-                @Override
-                protected void initChannel(SocketChannel ch) throws Exception {
-                    ch.pipeline().addLast(new ClientTransferMsgHandler(), new ChatRoomClientHandler());
-                }
-            });
+                    .handler(new ChannelInitializer<SocketChannel>() {
+                        @Override
+                        protected void initChannel(SocketChannel ch) throws Exception {
+                            ch.pipeline().addLast(new ClientTransferMsgHandler(), new ChatRoomClientHandler());
+                        }
+                    });
             ChannelFuture f = b.connect(host, port).sync();
             f.channel().closeFuture().sync();
         } catch (Exception e) {
             e.printStackTrace();
             group.shutdownGracefully().sync();
         } finally {
-        	group.shutdownGracefully();
+            group.shutdownGracefully();
         }
     }
-    
+
     public static void main(String[] args) throws Exception {
         new ChatRoomClient("localhost", 65535).start();
     }

@@ -5,12 +5,13 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+
 /**
  * 获取线程执行返回结果
- * @author siping-yx
- * @date 2017年11月10日
- * @version 1.0
  *
+ * @author siping-yx
+ * @version 1.0
+ * @date 2017年11月10日
  */
 public class R_CallableDemo {
 
@@ -20,13 +21,13 @@ public class R_CallableDemo {
         for (int i = 0; i < 10; i++) {
             results.add(exec.submit(new R_TaskWithResult(i)));
         }
-        
+
         for (Future<String> fs : results) {
             try {
                 System.out.println(fs.get());
             } catch (InterruptedException | ExecutionException e) {
                 System.out.println(e);
-            } finally{
+            } finally {
                 exec.shutdown();
             }
         }

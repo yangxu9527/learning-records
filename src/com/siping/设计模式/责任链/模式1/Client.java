@@ -1,9 +1,9 @@
 package com.siping.设计模式.责任链.模式1;
 
 /**
- * @date 2018年1月4日 下午3:20:56
  * @author yangxu
  * @version 1.0
+ * @date 2018年1月4日 下午3:20:56
  */
 public class Client {
 

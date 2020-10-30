@@ -14,23 +14,23 @@ public class EchoClient {
 
     private final String host;
     private final int port;
-    
+
     public EchoClient(String host, int port) {
         this.host = host;
         this.port = port;
     }
-    
+
     public void start() throws Exception {
         EventLoopGroup group = new NioEventLoopGroup();
         try {
             Bootstrap b = new Bootstrap();
             b.group(group).channel(NioSocketChannel.class).remoteAddress(new InetSocketAddress(host, port))
-            .handler(new ChannelInitializer<SocketChannel>() {
-                @Override
-                protected void initChannel(SocketChannel ch) throws Exception {
-                    ch.pipeline().addLast(new EchoClientHandler());
-                }
-            });
+                    .handler(new ChannelInitializer<SocketChannel>() {
+                        @Override
+                        protected void initChannel(SocketChannel ch) throws Exception {
+                            ch.pipeline().addLast(new EchoClientHandler());
+                        }
+                    });
             ChannelFuture f = b.connect().sync();
             f.channel().closeFuture().sync();
         } catch (Exception e) {
@@ -40,7 +40,7 @@ public class EchoClient {
             group.spliterator();
         }
     }
-    
+
     public static void main(String[] args) throws Exception {
         new EchoClient("localhost", 65535).start();
     }

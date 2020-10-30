@@ -9,9 +9,9 @@ public class B_LiftOff implements Runnable {
     protected int countDown = 10;
     private static int taskCount = 0;
     private final int id = taskCount++;
-    static Semaphore semaphore = new Semaphore(3,true);
+    static Semaphore semaphore = new Semaphore(3, true);
 
-    public B_LiftOff(){
+    public B_LiftOff() {
 
     }
 
@@ -24,7 +24,7 @@ public class B_LiftOff implements Runnable {
         try {
             TimeUnit.MICROSECONDS.sleep(300);
             semaphore.acquire();
-            System.out.println(Thread.currentThread().getName()+"进来了");
+            System.out.println(Thread.currentThread().getName() + "进来了");
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -36,7 +36,7 @@ public class B_LiftOff implements Runnable {
             e.printStackTrace();
         }
         //System.out.println("#" + id +"(" + (countDown > 0 ? countDown : "Liftoff!") + "),");
-        System.out.println(Thread.currentThread().getName()+"走了");
+        System.out.println(Thread.currentThread().getName() + "走了");
         semaphore.release();
     }
 

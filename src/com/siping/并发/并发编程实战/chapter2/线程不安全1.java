@@ -29,6 +29,7 @@ public class 线程不安全1 implements Servlet {
 
     /**
      * 分解后的因数写入到response
+     *
      * @param res
      * @param factors
      */
@@ -38,6 +39,7 @@ public class 线程不安全1 implements Servlet {
 
     /**
      * 从请求中提取因数
+     *
      * @param req
      * @return
      */
@@ -47,6 +49,7 @@ public class 线程不安全1 implements Servlet {
 
     /**
      * 因数分解
+     *
      * @param i
      * @return
      */

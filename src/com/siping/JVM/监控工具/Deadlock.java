@@ -9,10 +9,10 @@ package com.siping.JVM.监控工具;
  * 中调用了200次Integer.valueOf()方法一共就只返回了两个不同的对象。例如在某个线程两个synchronized
  * 块之间发生一次线程，那就回出现线程A等着被线程B持有的Integer.valueOf(1),线程B又等着被线程A持有的
  * Integer.valueOf(2),结果出现大家都跑不下去的情景。
- * @author siping-yx
- * @date 2017年12月7日
- * @version 1.0
  *
+ * @author siping-yx
+ * @version 1.0
+ * @date 2017年12月7日
  */
 public class Deadlock {
 
@@ -23,6 +23,7 @@ public class Deadlock {
             this.a = a;
             this.b = b;
         }
+
         @Override
         public void run() {
             synchronized (Integer.valueOf(a)) {
@@ -32,7 +33,7 @@ public class Deadlock {
             }
         }
     }
-    
+
     public static void main(String[] args) {
         for (int i = 0; i < 100; i++) {
             new Thread(new SynAddRunable(1, 2)).start();

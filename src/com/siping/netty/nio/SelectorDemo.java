@@ -20,7 +20,6 @@ public class SelectorDemo {
             // SelectionKey key = channel.register(selector, Selectionkey.OP_READ);
 
 
-
         } catch (Exception e) {
             e.printStackTrace();
         }

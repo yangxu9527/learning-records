@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class Utils {
 
-	public static String encodeMsg(Message message) {
+    public static String encodeMsg(Message message) {
         return message.getUsername() + "~" + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(message.getSentTime())) + "~" + message.getMsg();
     }
 

@@ -23,12 +23,12 @@ public class EchoServer {
             // Specifies NIO transport, local socket address
             // Adds handler to channel pipeline
             b.group(group).channel(NioServerSocketChannel.class).localAddress(port)
-                .childHandler(new ChannelInitializer<Channel>() {
-                @Override
-                protected void initChannel(Channel ch) throws Exception {
-                    ch.pipeline().addLast(new EchoServerHandler());
-                }
-            });
+                    .childHandler(new ChannelInitializer<Channel>() {
+                        @Override
+                        protected void initChannel(Channel ch) throws Exception {
+                            ch.pipeline().addLast(new EchoServerHandler());
+                        }
+                    });
 
             // Binds server, waits for server to close, and releases resources
             ChannelFuture f = b.bind().sync();

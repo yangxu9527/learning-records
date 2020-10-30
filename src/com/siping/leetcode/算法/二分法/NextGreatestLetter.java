@@ -22,7 +22,7 @@ public class NextGreatestLetter {
 
     @Test
     public void test() {
-        char[] letters = { 'c', 'f', 'j' };
+        char[] letters = {'c', 'f', 'j'};
         System.out.println(nextGreatestLetter(letters, 'j'));
     }
 }

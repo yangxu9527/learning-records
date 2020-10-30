@@ -11,13 +11,13 @@ public class NumJewelsInStones {
         int count = 0;
         char[] charArray = S.toCharArray();
         for (char c : charArray) {
-            if(J.indexOf(c) >= 0) {
+            if (J.indexOf(c) >= 0) {
                 count++;
             }
         }
         return count;
     }
-    
+
     @Test
     public void test() {
         String J = "aZ";

@@ -4,11 +4,10 @@ import org.junit.Test;
 
 /**
  * 557.
-反转字符串中的单词 III
- *
+ * 反转字符串中的单词 III
  */
 public class ReverseWords {
-    
+
     public String reverseWords(String s) {
         String[] sArr = s.split(" ");
         for (int i = 0; i < sArr.length; i++) {
@@ -18,9 +17,10 @@ public class ReverseWords {
         for (int i = 0; i < sArr.length; i++) {
             sb.append(sArr[i]).append(" ");
         }
-        
+
         return sb.toString().trim();
     }
+
     public String reverseString(String s) {
         char[] cs = s.toCharArray();
         int len = cs.length;
@@ -30,7 +30,7 @@ public class ReverseWords {
         }
         return new String(res);
     }
-    
+
     @Test
     public void test() {
         System.out.println(reverseWords("Hello world"));

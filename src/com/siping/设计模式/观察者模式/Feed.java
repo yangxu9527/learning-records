@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @date 2018年1月4日 下午2:18:35
  * @author yangxu
  * @version 1.0
+ * @date 2018年1月4日 下午2:18:35
  */
 public class Feed implements Subject {
 
     private final List<Observer> observers = new ArrayList<>();
+
     @Override
     public void registerObserver(Observer o) {
         this.observers.add(o);

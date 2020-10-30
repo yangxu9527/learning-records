@@ -13,9 +13,9 @@ public class ReverseInt {
 
     public int reverse(int x) {
         int result = 0;
-        while(x != 0) {
+        while (x != 0) {
             int tmp = result * 10 + x % 10;
-            if(tmp / 10 != result) {
+            if (tmp / 10 != result) {
                 return 0;
             }
             x = x / 10;
@@ -23,7 +23,7 @@ public class ReverseInt {
         }
         return result;
     }
-    
+
     @Test
     public void test() {
         System.out.println(reverse(-12345640));

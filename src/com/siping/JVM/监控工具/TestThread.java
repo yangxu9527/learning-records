@@ -6,10 +6,10 @@ import java.io.InputStreamReader;
 
 /**
  * jconsole监控线程
- * @author siping-yx
- * @date 2017年12月7日
- * @version 1.0
  *
+ * @author siping-yx
+ * @version 1.0
+ * @date 2017年12月7日
  */
 public class TestThread {
 
@@ -18,24 +18,25 @@ public class TestThread {
      */
     public static void createBusyThread() {
         Thread t = new Thread(new Runnable() {
-            
+
             @Override
             public void run() {
                 while (true) {
-                    
+
                 }
             }
         }, "testBusyThread");
         t.start();
     }
-    
+
     /**
      * 测试锁等待
+     *
      * @param lock
      */
     public static void createLockThread(final Object lock) {
         Thread t = new Thread(new Runnable() {
-            
+
             @Override
             public void run() {
                 synchronized (lock) {
@@ -49,7 +50,7 @@ public class TestThread {
         }, "testLockThread");
         t.start();
     }
-    
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         br.readLine();

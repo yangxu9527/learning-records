@@ -23,19 +23,19 @@ public class ChatRoomServer {
         try {
             ServerBootstrap b = new ServerBootstrap();
             b.group(bossGroup, workGroup).channel(NioServerSocketChannel.class).localAddress(port)
-                .childHandler(new ChannelInitializer<Channel>() {
-                @Override
-                protected void initChannel(Channel ch) {
-                    ch.pipeline().addLast(new MessageEncoder(), new ServerTransferMsgHandler(), new ChatRoomServerHandler());
-                }
-            });
+                    .childHandler(new ChannelInitializer<Channel>() {
+                        @Override
+                        protected void initChannel(Channel ch) {
+                            ch.pipeline().addLast(new MessageEncoder(), new ServerTransferMsgHandler(), new ChatRoomServerHandler());
+                        }
+                    });
 
             ChannelFuture f = b.bind().sync();
             System.out.println(ChatRoomServer.class.getName() + "started and listen on “" + f.channel().localAddress());
             f.channel().closeFuture().sync();
         } finally {
-        	bossGroup.shutdownGracefully().sync();
-        	workGroup.shutdownGracefully().sync();
+            bossGroup.shutdownGracefully().sync();
+            workGroup.shutdownGracefully().sync();
         }
     }
 

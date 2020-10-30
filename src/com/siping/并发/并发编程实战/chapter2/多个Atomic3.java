@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicReference;
  * @author Xu.Yang
  * @date 2019/3/5 17 20
  * @desc: 该线程不安全。假如需要提升性能将最近因数分解的结果缓存起来，当两个连续的请求对相同的因数数值进行因数分解时进行缓存。
- *        如果需要使线程安全可以考虑使用synchronized(内置锁)锁定service方法，但这样会造成性能的问题
+ * 如果需要使线程安全可以考虑使用synchronized(内置锁)锁定service方法，但这样会造成性能的问题
  */
 public class 多个Atomic3 implements Servlet {
 
@@ -34,6 +34,7 @@ public class 多个Atomic3 implements Servlet {
 
     /**
      * 分解后的因数写入到response
+     *
      * @param res
      * @param factors
      */
@@ -43,6 +44,7 @@ public class 多个Atomic3 implements Servlet {
 
     /**
      * 从请求中提取因数
+     *
      * @param req
      * @return
      */
@@ -52,6 +54,7 @@ public class 多个Atomic3 implements Servlet {
 
     /**
      * 因数分解
+     *
      * @param i
      * @return
      */

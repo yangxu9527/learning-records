@@ -8,7 +8,9 @@ public class ListNode {
     public ListNode() {
     }
 
-    public ListNode(int x) { val = x; }
+    public ListNode(int x) {
+        val = x;
+    }
 
     public ListNode getNext() {
         return next;

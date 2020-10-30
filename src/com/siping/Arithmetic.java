@@ -6,12 +6,14 @@ import java.util.Stack;
 
 /**
  * 四则运算表达式
+ *
  * @author siping-yx
  */
 public class Arithmetic {
 
     /**
      * 比较两个表达式的优先级
+     *
      * @param operator1
      * @param operator2
      * @return 右括号或者优先级低于栈顶元素返回true
@@ -23,6 +25,7 @@ public class Arithmetic {
 
     /**
      * 中缀表达式转后缀表达式
+     *
      * @return
      */
     public static String[] nifixToPostfixExpression(String[] expressionStrs) {
@@ -54,10 +57,10 @@ public class Arithmetic {
                 resStrs.add(str);
             }
         }
-        while (!stack.empty()) {  
-            String s = stack.pop();  
-            resStrs.add(s);  
-        }  
+        while (!stack.empty()) {
+            String s = stack.pop();
+            resStrs.add(s);
+        }
         return (String[]) resStrs.toArray();
     }
 

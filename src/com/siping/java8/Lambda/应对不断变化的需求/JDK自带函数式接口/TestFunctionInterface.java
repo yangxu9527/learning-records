@@ -10,9 +10,9 @@ import java.util.function.Supplier;
 import org.junit.Test;
 
 /**
- * @date 2018年1月4日 下午4:03:00
  * @author yangxu
  * @version 1.0
+ * @date 2018年1月4日 下午4:03:00
  */
 public class TestFunctionInterface {
 

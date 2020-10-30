@@ -13,6 +13,7 @@ public interface DeleteFile extends Library {
 
     /**
      * 删除文件
+     *
      * @param lpFileName 删除的文件名
      * @return
      */

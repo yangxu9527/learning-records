@@ -4,16 +4,16 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * 守护线程，守护线程创建的线程都是守护线程
- * @author siping-yx
- * @date 2017年11月10日
- * @version 1.0
  *
+ * @author siping-yx
+ * @version 1.0
+ * @date 2017年11月10日
  */
 public class D_SimpleDaemons implements Runnable {
 
     @Override
     public void run() {
-       try {
+        try {
             while (true) {
                 TimeUnit.MILLISECONDS.sleep(100);
                 System.out.println(Thread.currentThread() + " " + this);
@@ -32,5 +32,5 @@ public class D_SimpleDaemons implements Runnable {
         System.out.println("All daemons started");
         TimeUnit.MILLISECONDS.sleep(175);
     }
-    
+
 }

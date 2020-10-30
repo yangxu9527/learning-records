@@ -8,9 +8,10 @@ package com.siping.设计模式.访问者模式;
 public class Computer {
     /**
      * 电脑的类，当需要装机的话，就先准备好硬件，即new出来，然后插上接口
+     *
      * @param hardwareInterface
      */
-    public void useComputer(HardwareInterface hardwareInterface){
+    public void useComputer(HardwareInterface hardwareInterface) {
 
         //通过接口，连接cpu
         new CPU().link(hardwareInterface);

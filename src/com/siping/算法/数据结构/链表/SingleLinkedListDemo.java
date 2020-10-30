@@ -37,6 +37,7 @@ public class SingleLinkedListDemo {
 
     /**
      * 获取单链表的长度
+     *
      * @param headNode
      * @return
      */
@@ -55,6 +56,7 @@ public class SingleLinkedListDemo {
 
     /**
      * 查找倒数第k个节点
+     *
      * @param head
      * @param index
      * @return

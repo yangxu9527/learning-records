@@ -6,10 +6,10 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * 重载静态的ExecutorService
- * @author siping-yx
- * @date 2017年11月10日
- * @version 1.0
  *
+ * @author siping-yx
+ * @version 1.0
+ * @date 2017年11月10日
  */
 public class D_DeamonThreadPoolExecutor extends ThreadPoolExecutor {
 

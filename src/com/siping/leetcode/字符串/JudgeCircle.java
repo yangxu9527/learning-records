@@ -31,7 +31,7 @@ public class JudgeCircle {
         }
         return x == 0 && y == 0;
     }
-    
+
     @Test
     public void test() {
         System.out.println(judgeCircle("LR"));

@@ -18,7 +18,7 @@ public class JnaDemo {
         Pointer a = new Memory(1024);
         Pointer b = new Memory(1024);
 
-        MyDll.mydll.GetPeopleIDCode(a, b);
+//        MyDll.mydll.GetPeopleIDCode(a, b);
         byte[] bytes = a.getByteArray(0, 1024);
         String idCard = new String(bytes);
         System.out.println("身份证号:" + idCard);

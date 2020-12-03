@@ -24,7 +24,7 @@ import com.sun.jna.Pointer;
  */
 public interface MyDll extends Library {
 
-    MyDll mydll = Native.load("D:\\04_workspace\\c\\TestDll\\Release\\TestDll.dll", MyDll.class);
+//    MyDll mydll = Native.load("D:\\04_workspace\\c\\TestDll\\Release\\TestDll.dll", MyDll.class);
 
     int add(int a, int b);
 

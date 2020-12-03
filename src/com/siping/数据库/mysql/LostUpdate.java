@@ -29,9 +29,6 @@ public class LostUpdate implements Runnable {
 
         try {
             conn.setAutoCommit(false);
-            //不加锁的情况
-            //PreparedStatement ps =conn.prepareStatement("select * from lost_update where id =1");
-            //加锁的情况
             PreparedStatement ps = conn.prepareStatement("select * from lost_update where id =1 for update");
             ResultSet rs = ps.executeQuery();
             int count = 0;

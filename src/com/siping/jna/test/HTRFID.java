@@ -16,8 +16,8 @@ public class HTRFID {
 
     public interface JnaCallBackDll extends StdCallLibrary {
 
-        public static JnaCallBackDll instance = (JnaCallBackDll) Native.loadLibrary("src/main/resources/RFIDAPI.dll",
-                JnaCallBackDll.class);
+//        public static JnaCallBackDll instance = (JnaCallBackDll) Native.loadLibrary("src/main/resources/RFIDAPI.dll",
+//                JnaCallBackDll.class);
 
         boolean SAAT_TCPInit(PointerByReference pointer, String pHostName, int nsocketPort);
 
@@ -32,7 +32,7 @@ public class HTRFID {
 
     }
 
-    public static void main(String[] args) throws Exception {
+   /* public static void main(String[] args) throws Exception {
 
         PointerByReference pointer = new PointerByReference(Pointer.NULL);
         boolean t = JnaCallBackDll.instance.SAAT_TCPInit(pointer, "192.168.3.219", 7086);
@@ -69,7 +69,7 @@ public class HTRFID {
                 System.out.println("场强强度" + nParam2.getValue());
             }
         }
-    }
+    }*/
 }
 //
 //TCP参数初始化

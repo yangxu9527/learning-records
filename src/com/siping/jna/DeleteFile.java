@@ -9,7 +9,7 @@ import com.sun.jna.Native;
  * @description: 调用微软本地的dll文件
  */
 public interface DeleteFile extends Library {
-    DeleteFile DELETE_FILE = Native.load("Kernel32", DeleteFile.class);
+//    DeleteFile DELETE_FILE = Native.load("Kernel32", DeleteFile.class);
 
     /**
      * 删除文件
